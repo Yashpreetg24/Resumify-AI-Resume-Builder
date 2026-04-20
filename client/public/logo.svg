@@ -1,0 +1,14 @@
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22C55E" />
+      <stop offset="100%" stop-color="#16A34A" />
+    </linearGradient>
+  </defs>
+  <style>
+    .resum { fill: #111827; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -1.5px; }
+    .ify { fill: url(#brand-gradient); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -1.5px; }
+    .dot { fill: #22C55E; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -1.5px; }
+  </style>
+  <text x="5" y="40"><tspan class="resum">Resum</tspan><tspan class="ify">ify</tspan><tspan class="dot">.</tspan></text>
+</svg>
