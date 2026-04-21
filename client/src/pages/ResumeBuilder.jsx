@@ -11,6 +11,7 @@ import EducationForm from '../components/EducationForm'
 import ProjectForm from '../components/ProjectForm'
 import SkillsForm from '../components/SkillsForm'
 import TemplateGallery from '../components/TemplateGallery'
+import AtsScorePanel from '../components/AtsScorePanel'
 import { useSelector } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
@@ -182,6 +183,9 @@ const ResumeBuilder = () => {
                 Save Changes
               </button>
             </div>
+
+            {/* ATS Score Panel — sits below the form, same column width */}
+            <AtsScorePanel resumeData={resumeData} />
           </div>
 
           {/* Right Panel - Preview */}
@@ -206,6 +210,7 @@ const ResumeBuilder = () => {
             <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
           </div>
         </div>
+
       </div>
 
       <TemplateGallery

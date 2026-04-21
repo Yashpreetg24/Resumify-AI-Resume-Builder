@@ -140,3 +140,98 @@ export const uploadResume = async (req, res) => {
         return res.status(400).json({message: error.message})
     }
 }
+
+// controller for checking ATS score of a resume
+// POST: /api/ai/check-ats-score
+export const checkAtsScore = async (req, res) => {
+    try {
+        const { resumeData } = req.body;
+
+        if (!resumeData) {
+            return res.status(400).json({ message: 'Missing resume data' });
+        }
+
+        // Build a leaner payload — strip internal MongoDB fields the AI doesn't need
+        const slimResume = {
+            personal_info: resumeData.personal_info || {},
+            professional_summary: resumeData.professional_summary || '',
+            experience: resumeData.experience || [],
+            education: resumeData.education || [],
+            project: resumeData.project || [],
+            skills: resumeData.skills || [],
+        };
+
+        const systemPrompt = `You are an expert ATS (Applicant Tracking System) analyzer and professional resume coach. Analyze the provided resume data and return a comprehensive ATS score report in strict JSON format. Be realistic and consistent — for the same resume always return the same scores. Be critical: most resumes score 40-80; only exceptional ones score above 85.`;
+
+        const userPrompt = `Analyze this resume and return ONLY a valid JSON object — no markdown, no extra text.
+
+Resume:
+${JSON.stringify(slimResume, null, 2)}
+
+JSON structure to return:
+{
+  "overall_score": <integer 0-100>,
+  "total_issues": <integer>,
+  "summary_message": "<one sentence feedback>",
+  "categories": [
+    {
+      "id": "content",
+      "name": "CONTENT",
+      "score": <integer 0-100>,
+      "checks": [
+        { "name": "ATS Parse Rate", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Quantifying Impact", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Repetition", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Spelling & Grammar", "passed": <bool>, "issues": <int>, "detail": "<string>" }
+      ]
+    },
+    {
+      "id": "sections",
+      "name": "SECTIONS",
+      "score": <integer 0-100>,
+      "checks": [
+        { "name": "Essential Sections", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Contact Information", "passed": <bool>, "issues": <int>, "detail": "<string>" }
+      ]
+    },
+    {
+      "id": "ats_essentials",
+      "name": "ATS ESSENTIALS",
+      "score": <integer 0-100>,
+      "checks": [
+        { "name": "Email Address", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Professional Title", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "LinkedIn / Website", "passed": <bool>, "issues": <int>, "detail": "<string>" }
+      ]
+    },
+    {
+      "id": "keywords",
+      "name": "KEYWORDS",
+      "score": <integer 0-100>,
+      "checks": [
+        { "name": "Power Verbs", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Industry Keywords", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Skills Coverage", "passed": <bool>, "issues": <int>, "detail": "<string>" }
+      ]
+    }
+  ]
+}`;
+
+        const response = await ai.chat.completions.create({
+            model: process.env.OPENAI_MODEL,
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt },
+            ],
+            response_format: { type: 'json_object' },
+            temperature: 0,
+        });
+
+        const result = JSON.parse(response.choices[0].message.content);
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error('ATS Score Error:', error?.message, error?.response?.data);
+        return res.status(400).json({ message: error?.message || 'AI analysis failed' });
+    }
+}
+
