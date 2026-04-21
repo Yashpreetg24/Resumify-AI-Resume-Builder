@@ -38,15 +38,15 @@ const ModernTemplate = ({ data, accentColor }) => {
 						</div>
 					)}
 					{data.personal_info?.linkedin && (
-						<a target="_blank" href={data.personal_info?.linkedin} className="flex items-center gap-2">
+						<a target="_blank" rel="noopener noreferrer" href={data.personal_info?.linkedin} className="flex items-center gap-2 hover:underline">
 							<Linkedin className="size-4" />
-							<span className="break-all text-xs">{data.personal_info.linkedin.split("https://www.")[1] ? data.personal_info.linkedin.split("https://www.")[1] : data.personal_info.linkedin}</span>
+							<span className="text-xs">LinkedIn</span>
 						</a>
 					)}
 					{data.personal_info?.website && (
-						<a target="_blank" href={data.personal_info?.website} className="flex items-center gap-2">
+						<a target="_blank" rel="noopener noreferrer" href={data.personal_info?.website} className="flex items-center gap-2 hover:underline">
 							<Globe className="size-4" />
-							<span className="break-all text-xs">{data.personal_info.website.split("https://")[1] ? data.personal_info.website.split("https://")[1] : data.personal_info.website}</span>
+							<span className="text-xs">Portfolio</span>
 						</a>
 					)}
 				</div>

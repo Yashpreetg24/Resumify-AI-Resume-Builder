@@ -22,10 +22,10 @@ const MinimalTemplate = ({ data, accentColor }) => {
                     {data.personal_info?.phone && <span>{data.personal_info.phone}</span>}
                     {data.personal_info?.location && <span>{data.personal_info.location}</span>}
                     {data.personal_info?.linkedin && (
-                        <span className="break-all">{data.personal_info.linkedin}</span>
+                        <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
                     )}
                     {data.personal_info?.website && (
-                        <span className="break-all">{data.personal_info.website}</span>
+                        <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="hover:underline">Portfolio</a>
                     )}
                 </div>
             </header>

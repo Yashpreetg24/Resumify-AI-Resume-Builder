@@ -40,13 +40,13 @@ const ClassicTemplate = ({ data, accentColor }) => {
                     {data.personal_info?.linkedin && (
                         <div className="flex items-center gap-1">
                             <Linkedin className="size-4" />
-                            <span className="break-all">{data.personal_info.linkedin}</span>
+                            <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
                         </div>
                     )}
                     {data.personal_info?.website && (
                         <div className="flex items-center gap-1">
                             <Globe className="size-4" />
-                            <span className="break-all">{data.personal_info.website}</span>
+                            <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="hover:underline">Portfolio</a>
                         </div>
                     )}
                 </div>

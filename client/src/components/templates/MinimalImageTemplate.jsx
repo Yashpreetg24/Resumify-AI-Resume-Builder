@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
 
 const MinimalImageTemplate = ({ data, accentColor }) => {
     const formatDate = (dateStr) => {
@@ -65,6 +65,18 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                                 <div className="flex items-center gap-2">
                                     <MapPin size={14} style={{ color: accentColor }} />
                                     <span>{data.personal_info.location}</span>
+                                </div>
+                            )}
+                            {data.personal_info?.linkedin && (
+                                <div className="flex items-center gap-2">
+                                    <Linkedin size={14} style={{ color: accentColor }} />
+                                    <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
+                                </div>
+                            )}
+                            {data.personal_info?.website && (
+                                <div className="flex items-center gap-2">
+                                    <Globe size={14} style={{ color: accentColor }} />
+                                    <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="hover:underline">Portfolio</a>
                                 </div>
                             )}
                         </div>

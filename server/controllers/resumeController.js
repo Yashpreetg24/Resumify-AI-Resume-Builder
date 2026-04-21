@@ -8,10 +8,10 @@ import fs from 'fs';
 export const createResume = async (req, res) => {
     try {
         const userId = req.userId;
-        const {title} = req.body;
+        const {title, template, accent_color} = req.body;
 
         // create new resume
-        const newResume = await Resume.create({userId, title})
+        const newResume = await Resume.create({userId, title, template, accent_color})
         // return success message
         return res.status(201).json({message: 'Resume created successfully', resume: newResume})
 
@@ -102,10 +102,7 @@ export const updateResume = async (req, res) =>{
             const response = await imagekit.files.upload({
                             file: imageBufferData,
                             fileName: 'resume.png',
-                            folder: 'user-resumes',
-                             transformation: {
-                                pre: 'w-300,h-300,fo-face,z-0.75' + (removeBackground ? ',e-bgremove' : '')
-                             }
+                            folder: 'user-resumes'
                             });
 
             resumeDataCopy.personal_info.image = response.url
