@@ -227,11 +227,32 @@ JSON structure to return:
             temperature: 0,
         });
 
-        const result = JSON.parse(response.choices[0].message.content);
-        return res.status(200).json(result);
+        let rawContent = response.choices[0].message.content;
+        
+        // Clean markdown formatting if present
+        if (rawContent.startsWith('```')) {
+            rawContent = rawContent.replace(/^```json\n?/, '').replace(/\n?```$/, '').trim();
+        }
+
+        try {
+            const result = JSON.parse(rawContent);
+            return res.status(200).json(result);
+        } catch (parseError) {
+            console.error('ATS JSON Parse Error:', parseError.message);
+            console.error('Raw AI Content:', rawContent);
+            return res.status(500).json({ 
+                message: 'Failed to parse AI response', 
+                error: parseError.message,
+                raw: rawContent.substring(0, 100) + '...'
+            });
+        }
     } catch (error) {
-        console.error('ATS Score Error:', error?.message, error?.response?.data);
-        return res.status(400).json({ message: error?.message || 'AI analysis failed' });
+        console.error('ATS Score Error:', error?.message);
+        const statusCode = error?.response?.status || 500;
+        return res.status(statusCode).json({ 
+            message: error?.message || 'AI analysis failed',
+            details: error?.response?.data || null
+        });
     }
 }
 

@@ -20,6 +20,9 @@ app.use('/api/users', userRouter)
 app.use('/api/resumes', resumeRouter)
 app.use('/api/ai', aiRouter)
 
+// DEBUG ROUTE - Remove after testing
+app.get('/api/test', (req, res) => res.json({ message: "ATS Route is Registered", timestamp: new Date() }))
+
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`);
     

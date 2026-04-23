@@ -2,8 +2,15 @@
 const MinimalTemplate = ({ data, accentColor }) => {
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
+        // If it's already a formatted string (like "May 2024"), just return it
+        if (dateStr.includes(' ') || isNaN(dateStr.split('-')[0])) return dateStr;
+
         const [year, month] = dateStr.split("-");
-        return new Date(year, month - 1).toLocaleDateString("en-US", {
+        const date = new Date(year, (month || 1) - 1);
+
+        if (isNaN(date.getTime())) return dateStr; // Fallback to original string
+
+        return date.toLocaleDateString("en-US", {
             year: "numeric",
             month: "short"
         });
