@@ -147,42 +147,6 @@ const ResumeBuilder = () => {
         </div>
 
         <div className='flex gap-10 items-start h-[calc(100vh-10rem)] overflow-hidden'>
-          {/* Vertical Navigation Sidebar */}
-          <aside className='w-20 flex flex-col gap-4 py-8 glass-light rounded-[2.5rem] border-white/60 items-center sticky top-0'>
-             {sections.map((section, index) => (
-               <button
-                 key={section.id}
-                 onClick={() => setActiveSectionIndex(index)}
-                 className={`
-                   relative size-12 flex items-center justify-center rounded-xl transition-all duration-500 group
-                   ${activeSectionIndex === index ? 'text-accent' : 'text-slate-400 hover:text-accent/60'}
-                 `}
-               >
-                 {activeSectionIndex === index && (
-                   <motion.div
-                     layoutId="builder-nav-pill-light"
-                     className="absolute inset-0 bg-accent/10 border border-accent/20 rounded-xl glow-blue"
-                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                   />
-                 )}
-                 <section.icon size={20} className='relative z-10' />
-                 <div className="absolute left-full ml-4 px-3 py-1.5 glass-light border-white rounded-lg text-[10px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all pointer-events-none whitespace-nowrap z-50">
-                    {section.name}
-                 </div>
-               </button>
-             ))}
-             
-             <div className="mt-auto pt-4 border-t border-slate-100 flex flex-col gap-4 items-center">
-                <button 
-                  onClick={() => setShowTemplateGallery(true)}
-                  className="size-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-primary transition-all hover:bg-slate-50"
-                >
-                  <Layers size={18} />
-                </button>
-                <ColorPicker selectedColor={resumeData.accent_color} onChange={(color) => setResumeData(prev => ({ ...prev, accent_color: color }))} />
-             </div>
-          </aside>
-
           {/* Main Builder Grid */}
           <div className='flex-1 grid lg:grid-cols-12 gap-10 h-full overflow-y-auto custom-scrollbar pr-4'>
             {/* Form Column */}
@@ -192,19 +156,49 @@ const ResumeBuilder = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className='glass-light rounded-3xl p-8 border-white shadow-2xl relative overflow-hidden'
               >
-                {/* Section Header */}
-                <div className="flex items-center justify-between mb-10">
-                   <div className="flex items-center gap-4">
-                     <div className="size-12 bg-primary/5 rounded-2xl flex items-center justify-center text-primary">
-                        <activeSection.icon size={22} />
-                     </div>
-                     <div>
-                       <h2 className="text-primary font-black text-2xl tracking-tight leading-none uppercase">{activeSection.name}</h2>
-                     </div>
+                {/* Integrated Stepper Navigation */}
+                <div className="flex items-center justify-between p-2 mb-8 bg-slate-50/50 rounded-2xl border border-slate-100">
+                   <div className="flex items-center gap-1">
+                      <button 
+                        disabled={activeSectionIndex === 0}
+                        onClick={() => setActiveSectionIndex(prev => prev - 1)}
+                        className="size-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-primary hover:bg-white hover:shadow-sm disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+                      >
+                         <ChevronLeft size={20} />
+                      </button>
+                      <div className="h-6 w-[1px] bg-slate-200 mx-1"></div>
+                      <div className="flex items-center gap-3 px-3 py-1.5 bg-white rounded-xl shadow-sm border border-slate-100">
+                         <div className="size-8 bg-primary/5 rounded-lg flex items-center justify-center text-primary">
+                            <activeSection.icon size={16} />
+                         </div>
+                         <div className="flex flex-col">
+                            <span className="text-[8px] font-black text-secondary uppercase tracking-widest opacity-50">Section {activeSectionIndex + 1}/{sections.length}</span>
+                            <span className="text-[11px] font-black text-primary uppercase tracking-wider">{activeSection.name}</span>
+                         </div>
+                      </div>
+                      <div className="h-6 w-[1px] bg-slate-200 mx-1"></div>
+                      <button 
+                        disabled={activeSectionIndex === sections.length - 1}
+                        onClick={() => setActiveSectionIndex(prev => prev + 1)}
+                        className="size-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-primary hover:bg-white hover:shadow-sm disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+                      >
+                         <ChevronRight size={20} />
+                      </button>
                    </div>
-                   <div className="text-right">
-                      <div className="text-[10px] font-black text-secondary uppercase tracking-widest mb-1">Progress</div>
-                      <div className="text-lg font-black text-primary leading-none uppercase">{Math.round(((activeSectionIndex + 1) / sections.length) * 100)}%</div>
+
+                   <div className="flex items-center gap-2">
+                      <div className="flex flex-col items-end mr-2">
+                        <div className="text-[8px] font-black text-secondary uppercase tracking-[0.2em] opacity-50">Progress</div>
+                        <div className="text-[11px] font-black text-primary">{Math.round(((activeSectionIndex + 1) / sections.length) * 100)}%</div>
+                      </div>
+                      <div className="h-8 w-[1px] bg-slate-200 mx-1"></div>
+                      <button 
+                        onClick={() => setShowTemplateGallery(true)}
+                        className="size-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-primary hover:bg-white hover:shadow-sm transition-all"
+                      >
+                        <Layers size={18} />
+                      </button>
+                      <ColorPicker selectedColor={resumeData.accent_color} onChange={(color) => setResumeData(prev => ({ ...prev, accent_color: color }))} />
                    </div>
                 </div>
 
