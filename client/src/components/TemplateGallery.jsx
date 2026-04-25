@@ -136,7 +136,7 @@ const TemplateGallery = ({ isOpen, onClose, onSelect, onConfirm, selectedTemplat
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6"
       >
-        <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={onClose}></div>
+        <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
         
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -185,27 +185,6 @@ const TemplateGallery = ({ isOpen, onClose, onSelect, onConfirm, selectedTemplat
                       {template.name}
                     </h3>
                     <p className="text-[10px] text-secondary opacity-60 font-bold uppercase tracking-wider mt-0.5">{template.description}</p>
-                    
-                    {/* Color Swatches */}
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {accentColors.slice(0, 5).map((color) => (
-                        <button
-                          key={color.value}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onSelect(template.id, color.value);
-                          }}
-                          className={`size-4 rounded-full border-2 transition-all duration-300 hover:scale-125
-                            ${selectedColor === color.value && selectedTemplate === template.id 
-                              ? 'ring-2 ring-offset-2 ring-accent border-white shadow-md' 
-                              : 'border-white shadow-sm hover:border-slate-200'}`}
-                          style={{ backgroundColor: color.value }}
-                        />
-                      ))}
-                      <div className="size-4 rounded-full border border-slate-100 bg-white flex items-center justify-center shadow-sm">
-                         <Palette size={8} className="text-slate-400" />
-                      </div>
-                    </div>
                   </div>
                 </div>
               ))}
@@ -213,7 +192,13 @@ const TemplateGallery = ({ isOpen, onClose, onSelect, onConfirm, selectedTemplat
           </div>
 
           {/* Footer */}
-          <div className="px-10 pb-10 pt-4 flex justify-end relative z-10">
+          <div className="px-10 pb-10 pt-4 flex justify-end items-center gap-4 relative z-10">
+              <button 
+                  onClick={onClose}
+                  className="px-8 py-4 bg-white text-slate-500 rounded-full font-black text-sm hover:text-slate-900 transition-all"
+              >
+                  Cancel
+              </button>
               <button 
                   onClick={onConfirm}
                   className="px-12 py-4 bg-primary text-white rounded-full font-black text-sm hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/20 flex items-center gap-3 group"

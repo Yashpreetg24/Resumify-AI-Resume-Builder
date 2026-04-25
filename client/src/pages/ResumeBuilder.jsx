@@ -154,52 +154,51 @@ const ResumeBuilder = () => {
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className='glass-light rounded-3xl p-8 border-white shadow-2xl relative overflow-hidden'
+                className='glass-light rounded-3xl p-8 border-white shadow-2xl relative'
               >
                 {/* Integrated Stepper Navigation */}
-                <div className="flex items-center justify-between p-1.5 mb-10 bg-slate-100/40 backdrop-blur-sm rounded-[1.25rem] border border-slate-200/60 shadow-sm">
-                   <div className="flex items-center gap-1.5">
+                <div className="flex items-center justify-between p-1 mb-8 bg-slate-100/40 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-sm relative z-50">
+                   <div className="flex items-center gap-1">
                       <button 
                         disabled={activeSectionIndex === 0}
                         onClick={() => setActiveSectionIndex(prev => prev - 1)}
-                        className="size-11 rounded-[1rem] flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md disabled:opacity-20 disabled:hover:bg-transparent transition-all"
+                        className="size-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md disabled:opacity-20 disabled:hover:bg-transparent transition-all"
                       >
-                         <ChevronLeft size={20} />
+                         <ChevronLeft size={18} />
                       </button>
                       
-                      <div className="flex items-center gap-4 pl-1 pr-5 py-1.5 bg-white rounded-[1rem] shadow-sm border border-slate-200/50">
-                         <div className="size-9 bg-slate-900 rounded-[0.75rem] flex items-center justify-center text-white shadow-lg shadow-slate-900/20">
-                            <activeSection.icon size={16} />
+                      <div className="flex items-center gap-3 pl-1 pr-4 py-1 bg-white rounded-xl shadow-sm border border-slate-200/50">
+                         <div className="size-8 bg-slate-900 rounded-lg flex items-center justify-center text-white shadow-lg shadow-slate-900/10">
+                            <activeSection.icon size={14} />
                          </div>
                          <div className="flex flex-col">
-                            <span className="text-[7px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1">Section {activeSectionIndex + 1} of {sections.length}</span>
-                            <span className="text-[12px] font-black text-slate-900 uppercase tracking-tight leading-none">{activeSection.name}</span>
+                            <span className="text-[6px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-0.5">Step {activeSectionIndex + 1}/{sections.length}</span>
+                            <span className="text-[11px] font-black text-slate-900 uppercase tracking-tight leading-none">{activeSection.name}</span>
                          </div>
                       </div>
 
                       <button 
                         disabled={activeSectionIndex === sections.length - 1}
                         onClick={() => setActiveSectionIndex(prev => prev + 1)}
-                        className="size-11 rounded-[1rem] flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md disabled:opacity-20 disabled:hover:bg-transparent transition-all"
+                        className="size-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md disabled:opacity-20 disabled:hover:bg-transparent transition-all"
                       >
-                         <ChevronRight size={20} />
+                         <ChevronRight size={18} />
                       </button>
                    </div>
 
-                   <div className="flex items-center gap-1 pr-1.5">
-                      <div className="flex flex-col items-end mr-4">
-                        <div className="text-[7px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1">Progress</div>
-                        <div className="text-[12px] font-black text-slate-900 leading-none">{Math.round(((activeSectionIndex + 1) / sections.length) * 100)}%</div>
+                   <div className="flex items-center gap-1">
+                      <div className="hidden sm:flex flex-col items-end mr-2">
+                        <div className="text-[6px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-0.5">Progress</div>
+                        <div className="text-[11px] font-black text-slate-900 leading-none">{Math.round(((activeSectionIndex + 1) / sections.length) * 100)}%</div>
                       </div>
                       
-                      <div className="h-8 w-[1px] bg-slate-200 mx-1"></div>
+                      <div className="h-6 w-[1px] bg-slate-200 mx-0.5"></div>
                       
                       <button 
                         onClick={() => setShowTemplateGallery(true)}
-                        className="size-11 rounded-[1rem] flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md transition-all group relative"
+                        className="size-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md transition-all group relative"
                       >
-                        <Layers size={18} />
-                        <span className="absolute bottom-full mb-3 px-3 py-1.5 bg-slate-900 text-white text-[8px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none shadow-xl">Templates</span>
+                        <Layers size={16} />
                       </button>
                       
                       <ColorPicker selectedColor={resumeData.accent_color} onChange={(color) => setResumeData(prev => ({ ...prev, accent_color: color }))} />
@@ -226,27 +225,6 @@ const ResumeBuilder = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* Footer Navigation */}
-                <div className="flex items-center justify-between mt-10 pt-8 border-t border-slate-100">
-                  <button 
-                    onClick={() => setActiveSectionIndex(prev => Math.max(0, prev - 1))}
-                    disabled={activeSectionIndex === 0}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl font-black text-[10px] tracking-widest text-secondary hover:text-primary disabled:opacity-0 transition-all uppercase"
-                  >
-                    <ChevronLeft size={16} /> Previous
-                  </button>
-
-                  <button 
-                    onClick={() => {
-                      if (activeSectionIndex === sections.length - 1) saveResume();
-                      else setActiveSectionIndex(prev => prev + 1);
-                    }}
-                    className="flex items-center gap-3 px-10 h-14 bg-slate-900 hover:scale-[1.02] active:scale-95 text-white rounded-2xl font-black text-[11px] tracking-[0.2em] uppercase shadow-xl shadow-slate-900/20 transition-all"
-                  >
-                    {activeSectionIndex === sections.length - 1 ? 'Finish & Save' : 'Next Section'}
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
