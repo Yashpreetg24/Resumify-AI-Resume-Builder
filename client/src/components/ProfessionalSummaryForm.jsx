@@ -25,15 +25,14 @@ const ProfessionalSummaryForm = ({data, onChange, setResumeData}) => {
 
   return (
     <div className='space-y-8'>
-      <div className='flex items-center justify-between'>
-        <span className="text-[10px] font-black text-secondary uppercase tracking-[0.3em]">Neural Synthesis</span>
+      <div className='flex justify-end'>
         <button 
           disabled={isGenerating} 
           onClick={generateSummary} 
-          className='flex items-center gap-3 px-6 h-10 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20 disabled:opacity-50'
+          className='flex items-center gap-3 px-8 h-12 bg-primary text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20 disabled:opacity-50'
         >
-          {isGenerating ? <Loader2 className="size-3.5 animate-spin"/> : <Zap className="size-3.5"/>}
-          {isGenerating ? "Enhancing..." : "AI Auto-Complete"}
+          {isGenerating ? <Loader2 className="size-4 animate-spin"/> : <Zap className="size-4"/>}
+          {isGenerating ? "Enhancing..." : "AI Enhance"}
         </button>
       </div>
 
