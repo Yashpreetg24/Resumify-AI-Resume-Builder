@@ -2,7 +2,7 @@ import { BriefcaseBusiness, Globe, Linkedin, Mail, MapPin, Phone, User, Trash2, 
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const PersonalInfoForm = ({data, onChange}) => {
+const PersonalInfoForm = ({data, onChange, supportsImage = true}) => {
     const handleChange = (field, value)=>{
         onChange({...data, [field]: value})
     }
@@ -20,35 +20,37 @@ const PersonalInfoForm = ({data, onChange}) => {
   return (
     <div className="space-y-6">
       {/* Image Uploader */}
-      <div className="flex flex-col items-center gap-3 py-2">
-        <label className="relative group cursor-pointer">
-           <div className="size-20 rounded-[1.5rem] bg-slate-50 border-2 border-white shadow-xl flex items-center justify-center overflow-hidden relative transition-all group-hover:scale-105 active:scale-95">
-              {data.image ? (
-                <>
-                   <img 
-                    src={typeof data.image === 'string' ? data.image : URL.createObjectURL(data.image)} 
-                    alt="profile" 
-                    className="size-full object-cover group-hover:opacity-40 transition-opacity"
-                   />
-                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Trash2 className="text-red-500" size={24} />
-                   </div>
-                </>
-              ) : (
-                <div className="flex flex-col items-center gap-2 text-slate-300 group-hover:text-primary transition-colors">
-                   <Camera size={24} strokeWidth={1.5} />
-                </div>
-              )}
-           </div>
-           <input 
-              type="file" 
-              accept="image/*" 
-              className="hidden" 
-              onChange={(e) => handleChange("image", e.target.files[0])} 
-           />
-        </label>
-        <span className="text-[9px] font-black text-secondary uppercase tracking-[0.2em] opacity-40">Profile Image</span>
-      </div>
+      {supportsImage && (
+        <div className="flex flex-col items-center gap-3 py-2">
+          <label className="relative group cursor-pointer">
+             <div className="size-20 rounded-[1.5rem] bg-slate-50 border-2 border-white shadow-xl flex items-center justify-center overflow-hidden relative transition-all group-hover:scale-105 active:scale-95">
+                {data.image ? (
+                  <>
+                     <img 
+                      src={typeof data.image === 'string' ? data.image : URL.createObjectURL(data.image)} 
+                      alt="profile" 
+                      className="size-full object-cover group-hover:opacity-40 transition-opacity"
+                     />
+                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Trash2 className="text-red-500" size={24} />
+                     </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center gap-2 text-slate-300 group-hover:text-primary transition-colors">
+                     <Camera size={24} strokeWidth={1.5} />
+                  </div>
+                )}
+             </div>
+             <input 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                onChange={(e) => handleChange("image", e.target.files[0])} 
+             />
+          </label>
+          <span className="text-[9px] font-black text-secondary uppercase tracking-[0.2em] opacity-40">Profile Image</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
         {fields.map((field) => (
@@ -67,7 +69,7 @@ const PersonalInfoForm = ({data, onChange}) => {
                   type={field.type} 
                   value={data[field.key] || ""} 
                   onChange={(e)=>handleChange(field.key, e.target.value)} 
-                  className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary placeholder:text-slate-300 focus:border-accent/30 focus:ring-4 focus:ring-accent/5 outline-none transition-all shadow-sm"
+                  className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary placeholder:text-slate-300 focus:border-accent/30 focus:ring-4 focus:ring-accent/5 outline-none transition-all shadow-sm"
                   placeholder={field.placeholder}
                   required={field.required}
                 />

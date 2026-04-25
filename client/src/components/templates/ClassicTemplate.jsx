@@ -23,10 +23,10 @@ const ClassicTemplate = ({ data }) => {
 
                 <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-[10px] font-black uppercase tracking-widest text-secondary/60">
                     {data.personal_info?.email && (
-                        <div className="flex items-center gap-2">
+                        <a href={`mailto:${data.personal_info.email}`} className="flex items-center gap-2 hover:text-slate-900 transition-colors">
                             <Mail size={12} className="text-primary opacity-30" />
                             <span>{data.personal_info.email}</span>
-                        </div>
+                        </a>
                     )}
                     {data.personal_info?.phone && (
                         <div className="flex items-center gap-2">
@@ -41,10 +41,16 @@ const ClassicTemplate = ({ data }) => {
                         </div>
                     )}
                     {data.personal_info?.linkedin && (
-                        <div className="flex items-center gap-2">
+                        <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-slate-900 transition-colors">
                             <Linkedin size={12} className="text-primary opacity-30" />
                             <span>LinkedIn</span>
-                        </div>
+                        </a>
+                    )}
+                    {data.personal_info?.website && (
+                        <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-slate-900 transition-colors">
+                            <Globe size={12} className="text-primary opacity-30" />
+                            <span>Portfolio</span>
+                        </a>
                     )}
                 </div>
             </header>

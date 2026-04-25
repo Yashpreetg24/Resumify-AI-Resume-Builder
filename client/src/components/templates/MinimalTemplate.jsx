@@ -18,11 +18,11 @@ const MinimalTemplate = ({ data }) => {
                     {data.personal_info?.full_name || "Your Name"}
                 </h1>
                 <div className="flex flex-wrap gap-x-10 gap-y-4 text-[10px] font-black uppercase tracking-[0.3em] text-secondary/40 border-t border-slate-100 pt-8">
-                    {data.personal_info?.email && <span>{data.personal_info.email}</span>}
+                    {data.personal_info?.email && <a href={`mailto:${data.personal_info.email}`} className="hover:text-primary transition-colors">{data.personal_info.email}</a>}
                     {data.personal_info?.phone && <span>{data.personal_info.phone}</span>}
                     {data.personal_info?.location && <span>{data.personal_info.location}</span>}
-                    {data.personal_info?.linkedin && <span>LinkedIn</span>}
-                    {data.personal_info?.website && <span>Portfolio</span>}
+                    {data.personal_info?.linkedin && <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">LinkedIn</a>}
+                    {data.personal_info?.website && <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Portfolio</a>}
                 </div>
             </header>
 

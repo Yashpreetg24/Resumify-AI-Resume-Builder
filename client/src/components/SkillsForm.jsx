@@ -26,7 +26,7 @@ const SkillsForm = ({ data, onChange }) => {
   return (
     <div className="space-y-6">
       <div className="flex justify-end">
-        <div className="px-3 py-1 bg-slate-50 border border-slate-100 rounded-lg">
+        <div className="px-3 py-1 bg-slate-50 border border-slate-200/80 rounded-lg">
            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{data.length} Skills</span>
         </div>
       </div>
@@ -35,7 +35,7 @@ const SkillsForm = ({ data, onChange }) => {
             <input 
               type="text" 
               placeholder="e.g. Neural Networks, React.js" 
-              className="flex-1 bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"
+              className="flex-1 bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"
               onChange={(e)=>setNewSkill(e.target.value)}
               value={newSkill}
               onKeyDown={handleKeyPress}
@@ -49,7 +49,7 @@ const SkillsForm = ({ data, onChange }) => {
             </button>
       </div>
 
-      <div className="min-h-[100px] p-6 glass-light border-slate-100 rounded-3xl relative overflow-hidden">
+      <div className="min-h-[100px] p-6 glass-light border-slate-200/80 rounded-3xl relative overflow-hidden">
         {data.length > 0 ? (
           <div className="flex flex-wrap gap-2 relative z-10">
               <AnimatePresence>
@@ -59,7 +59,7 @@ const SkillsForm = ({ data, onChange }) => {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-100 text-primary rounded-lg text-[11px] font-bold shadow-sm group hover:border-accent/30 transition-all"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200/80 text-primary rounded-lg text-[11px] font-bold shadow-sm group hover:border-accent/30 transition-all"
                   >
                       {skill}
                       <button onClick={()=> removeSkill(index)} className="text-slate-300 hover:text-red-500 transition-colors">
@@ -77,7 +77,7 @@ const SkillsForm = ({ data, onChange }) => {
         )}
       </div>
 
-      <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex items-start gap-4">
+      <div className="p-5 bg-slate-50 border border-slate-200/80 rounded-2xl flex items-start gap-4">
          <div className="size-6 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400 shrink-0">
             <Zap size={12} />
          </div>

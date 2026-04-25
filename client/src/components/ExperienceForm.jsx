@@ -76,7 +76,7 @@ const updateExperience = (index, field, value)=>{
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm relative group"
+                  className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm relative group"
                 >
                     <div className="flex justify-between items-center mb-6">
                         <div className="size-9 bg-slate-50 rounded-xl flex items-center justify-center text-secondary font-black text-[11px]">
@@ -96,7 +96,7 @@ const updateExperience = (index, field, value)=>{
                               <Building2 size={11} className="text-accent" />
                               Company
                            </label>
-                           <input value={experience.company || ""} onChange={(e)=>updateExperience(index, "company", e.target.value)} type="text" placeholder="e.g. Google" className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                           <input value={experience.company || ""} onChange={(e)=>updateExperience(index, "company", e.target.value)} type="text" placeholder="e.g. Google" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
@@ -104,7 +104,7 @@ const updateExperience = (index, field, value)=>{
                               <Briefcase size={11} className="text-accent" />
                               Role
                            </label>
-                           <input value={experience.position || ""} onChange={(e)=>updateExperience(index, "position", e.target.value)} type="text" placeholder="e.g. Lead Designer" className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                           <input value={experience.position || ""} onChange={(e)=>updateExperience(index, "position", e.target.value)} type="text" placeholder="e.g. Lead Designer" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
@@ -112,7 +112,7 @@ const updateExperience = (index, field, value)=>{
                               <Calendar size={11} className="text-accent" />
                               From
                            </label>
-                           <input value={experience.start_date || ""} onChange={(e)=>updateExperience(index, "start_date", e.target.value)} type="month" className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                           <input value={experience.start_date || ""} onChange={(e)=>updateExperience(index, "start_date", e.target.value)} type="month" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
@@ -120,7 +120,7 @@ const updateExperience = (index, field, value)=>{
                               <Calendar size={11} className="text-accent" />
                               To
                            </label>
-                           <input value={experience.end_date || ""} onChange={(e)=>updateExperience(index, "end_date", e.target.value)} type="month" disabled={experience.is_current} className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all disabled:opacity-30"/>
+                           <input value={experience.end_date || ""} onChange={(e)=>updateExperience(index, "end_date", e.target.value)} type="month" disabled={experience.is_current} className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all disabled:opacity-30"/>
                         </div>
                     </div>
 
@@ -146,7 +146,7 @@ const updateExperience = (index, field, value)=>{
                                 AI Enhance
                             </button>
                         </div>
-                        <textarea value={experience.description || ""} onChange={(e)=> updateExperience(index, "description", e.target.value)} rows={4} className="w-full bg-slate-50/30 border border-slate-100 rounded-xl px-5 py-4 text-[13px] font-medium text-primary placeholder:text-slate-300 focus:bg-white focus:border-accent/20 outline-none transition-all resize-none leading-relaxed" placeholder="Summarize your impact and achievements..."/>
+                        <textarea value={experience.description || ""} onChange={(e)=> updateExperience(index, "description", e.target.value)} rows={4} className="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-5 py-4 text-[13px] font-medium text-primary placeholder:text-slate-300 focus:bg-white focus:border-accent/20 outline-none transition-all resize-none leading-relaxed" placeholder="Summarize your impact and achievements..."/>
                     </div>
                 </motion.div>
             ))}

@@ -64,7 +64,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                             )}
                             {data.personal_info?.email && (
                                 <div className="flex items-center gap-2">
-                                    <Mail size={14} style={{ color: accentColor }} />
+                                     <Mail size={14} style={{ color: accentColor }} />
                                     <span>{data.personal_info.email}</span>
                                 </div>
                             )}
@@ -74,18 +74,18 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                                     <span>{data.personal_info.location}</span>
                                 </div>
                             )}
-                            {data.personal_info?.linkedin && (
-                                <div className="flex items-center gap-2">
-                                    <Linkedin size={14} style={{ color: accentColor }} />
-                                    <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
-                                </div>
-                            )}
-                            {data.personal_info?.website && (
-                                <div className="flex items-center gap-2">
-                                    <Globe size={14} style={{ color: accentColor }} />
-                                    <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="hover:underline">Portfolio</a>
-                                </div>
-                            )}
+                             {data.personal_info?.linkedin && (
+                                 <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
+                                     <Linkedin size={14} style={{ color: accentColor }} />
+                                     <span>LinkedIn</span>
+                                 </a>
+                             )}
+                             {data.personal_info?.website && (
+                                 <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
+                                     <Globe size={14} style={{ color: accentColor }} />
+                                     <span>Portfolio</span>
+                                 </a>
+                             )}
                         </div>
                     </section>
 

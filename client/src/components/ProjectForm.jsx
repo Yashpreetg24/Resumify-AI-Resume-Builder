@@ -52,7 +52,7 @@ const updateProject = (index, field, value)=>{
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm relative group"
+                  className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm relative group"
                 >
                     <div className="flex justify-between items-center mb-6">
                         <div className="size-9 bg-slate-50 rounded-xl flex items-center justify-center text-secondary font-black text-[11px]">
@@ -72,17 +72,17 @@ const updateProject = (index, field, value)=>{
                               <Layout size={11} className="text-accent" />
                               Project Name
                            </label>
-                           <input value={project.name || ""} onChange={(e)=>updateProject(index, "name", e.target.value)} type="text" placeholder="e.g. AI Portfolio System" className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                           <input value={project.name || ""} onChange={(e)=>updateProject(index, "name", e.target.value)} type="text" placeholder="e.g. AI Portfolio System" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
                            <label className="flex items-center gap-2 text-[9px] font-black text-secondary uppercase tracking-widest pl-1">Type / Category</label>
-                           <input value={project.type || ""} onChange={(e)=>updateProject(index, "type", e.target.value)} type="text" placeholder="e.g. Full-stack Web Application" className="w-full bg-slate-50/30 border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all"/>
+                           <input value={project.type || ""} onChange={(e)=>updateProject(index, "type", e.target.value)} type="text" placeholder="e.g. Full-stack Web Application" className="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
                            <label className="flex items-center gap-2 text-[9px] font-black text-secondary uppercase tracking-widest pl-1">Contribution Details</label>
-                           <textarea rows={4} value={project.description || ""} onChange={(e)=>updateProject(index, "description", e.target.value)} placeholder="Explain the project scope and your specific role..." className="w-full bg-slate-50/30 border border-slate-100 rounded-xl px-5 py-4 text-[13px] font-medium text-primary placeholder:text-slate-300 focus:bg-white focus:border-accent/20 outline-none transition-all resize-none leading-relaxed"/>
+                           <textarea rows={4} value={project.description || ""} onChange={(e)=>updateProject(index, "description", e.target.value)} placeholder="Explain the project scope and your specific role..." className="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-5 py-4 text-[13px] font-medium text-primary placeholder:text-slate-300 focus:bg-white focus:border-accent/20 outline-none transition-all resize-none leading-relaxed"/>
                         </div>
                     </div>
                 </motion.div>

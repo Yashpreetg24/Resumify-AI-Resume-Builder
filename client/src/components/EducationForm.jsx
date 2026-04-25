@@ -54,7 +54,7 @@ const updateEducation = (index, field, value)=>{
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm relative group"
+                  className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm relative group"
                 >
                     <div className="flex justify-between items-center mb-6">
                         <div className="size-9 bg-slate-50 rounded-xl flex items-center justify-center text-secondary font-black text-[11px]">
@@ -74,7 +74,7 @@ const updateEducation = (index, field, value)=>{
                               <School size={11} className="text-accent" />
                               Institution
                            </label>
-                           <input value={education.institution || ""} onChange={(e)=>updateEducation(index, "institution", e.target.value)} type="text" placeholder="e.g. Stanford University" className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                           <input value={education.institution || ""} onChange={(e)=>updateEducation(index, "institution", e.target.value)} type="text" placeholder="e.g. Stanford University" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
@@ -82,7 +82,7 @@ const updateEducation = (index, field, value)=>{
                               <GraduationCap size={11} className="text-accent" />
                               Degree
                            </label>
-                           <input value={education.degree || ""} onChange={(e)=>updateEducation(index, "degree", e.target.value)} type="text" placeholder="e.g. Bachelor of Science" className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                           <input value={education.degree || ""} onChange={(e)=>updateEducation(index, "degree", e.target.value)} type="text" placeholder="e.g. Bachelor of Science" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
@@ -90,16 +90,16 @@ const updateEducation = (index, field, value)=>{
                               <Calendar size={11} className="text-accent" />
                               Graduation
                            </label>
-                           <input value={education.graduation_date || ""} onChange={(e)=>updateEducation(index, "graduation_date", e.target.value)} type="month" className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                           <input value={education.graduation_date || ""} onChange={(e)=>updateEducation(index, "graduation_date", e.target.value)} type="month" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
                         </div>
 
                         <div className="space-y-1.5">
                            <label className="flex items-center gap-2 text-[9px] font-black text-secondary uppercase tracking-widest pl-1">Field of Study</label>
-                           <input value={education.field || ""} onChange={(e)=>updateEducation(index, "field", e.target.value)} type="text" className="w-full bg-slate-50/30 border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all" placeholder="e.g. Computer Science"/>
+                           <input value={education.field || ""} onChange={(e)=>updateEducation(index, "field", e.target.value)} type="text" className="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all" placeholder="e.g. Computer Science"/>
                         </div>
                         <div className="space-y-1.5">
                            <label className="flex items-center gap-2 text-[9px] font-black text-secondary uppercase tracking-widest pl-1">GPA (Score)</label>
-                           <input value={education.gpa || ""} onChange={(e)=>updateEducation(index, "gpa", e.target.value)} type="text" className="w-full bg-slate-50/30 border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all" placeholder="e.g. 3.9 / 4.0"/>
+                           <input value={education.gpa || ""} onChange={(e)=>updateEducation(index, "gpa", e.target.value)} type="text" className="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all" placeholder="e.g. 3.9 / 4.0"/>
                         </div>
                     </div>
                 </motion.div>

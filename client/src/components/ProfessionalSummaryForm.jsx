@@ -41,7 +41,7 @@ const ProfessionalSummaryForm = ({data, onChange, setResumeData}) => {
           value={data || ""} 
           onChange={(e)=> onChange(e.target.value)} 
           rows={8} 
-          className="w-full bg-white border border-slate-100 rounded-[2rem] px-8 py-8 text-sm font-medium text-primary placeholder:text-slate-300 focus:border-accent/30 focus:ring-4 focus:ring-accent/5 outline-none transition-all shadow-sm resize-none leading-relaxed"
+          className="w-full bg-white border border-slate-200/80 rounded-[2rem] px-8 py-8 text-sm font-medium text-primary placeholder:text-slate-300 focus:border-accent/30 focus:ring-4 focus:ring-accent/5 outline-none transition-all shadow-sm resize-none leading-relaxed"
           placeholder='Describe your professional journey, key achievements, and the value you bring to a potential employer...' 
         />
         <div className="absolute bottom-6 right-8 text-[10px] font-black text-secondary opacity-20 uppercase tracking-widest pointer-events-none">

@@ -173,11 +173,11 @@ const ResumeBuilder = () => {
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className='glass-light rounded-3xl p-8 border-white shadow-2xl relative'
+                className='glass-light rounded-3xl p-8 border border-slate-300/60 shadow-2xl relative'
               >
                 <div className="flex items-center gap-2 mb-6">
                    {/* Main Stepper Bar */}
-                   <div className="flex-1 flex items-center justify-between p-0.5 bg-slate-100/30 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-sm relative z-50 px-1">
+                   <div className="flex-1 flex items-center justify-between p-0.5 bg-slate-100/30 backdrop-blur-sm rounded-xl border border-slate-300/80 shadow-sm relative z-50 px-1">
                       <div className="flex items-center gap-1.5">
                          <button 
                            disabled={activeSectionIndex === 0}
@@ -216,7 +216,7 @@ const ResumeBuilder = () => {
                    <div className="flex items-center gap-1 shrink-0">
                       <button 
                         onClick={() => setShowTemplateGallery(true)}
-                        className="size-9 rounded-xl bg-white border border-slate-200/50 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-all active:scale-95"
+                        className="size-9 rounded-xl bg-white border border-slate-300/80 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:border-slate-400 shadow-sm transition-all active:scale-95"
                         title="Change Template"
                       >
                          <Layers size={16} />
@@ -235,7 +235,7 @@ const ResumeBuilder = () => {
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.3 }}
                     >
-                      {activeSection.id === 'personal' && <PersonalInfoForm data={resumeData.personal_info} onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))} />}
+                      {activeSection.id === 'personal' && <PersonalInfoForm data={resumeData.personal_info} onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))} supportsImage={resumeData.template === 'minimal-image'} />}
                       {activeSection.id === 'summary' && <ProfessionalSummaryForm data={resumeData.professional_summary} onChange={(data) => setResumeData(prev => ({ ...prev, professional_summary: data }))} setResumeData={setResumeData} />}
                       {activeSection.id === 'experience' && <ExperienceForm data={resumeData.experience} onChange={(data) => setResumeData(prev => ({ ...prev, experience: data }))} />}
                       {activeSection.id === 'education' && <EducationForm data={resumeData.education} onChange={(data) => setResumeData(prev => ({ ...prev, education: data }))} />}
@@ -253,8 +253,8 @@ const ResumeBuilder = () => {
             </div>
 
             {/* Preview Column */}
-            <div className='lg:col-span-8 flex flex-col gap-6 pt-4'>
-               <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-white shadow-black/5">
+            <div className='lg:col-span-8 flex flex-col gap-6'>
+               <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-slate-300/60 shadow-black/5">
                  <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
               </div>
             </div>
