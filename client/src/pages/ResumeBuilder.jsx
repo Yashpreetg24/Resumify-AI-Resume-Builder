@@ -153,7 +153,7 @@ const ResumeBuilder = () => {
                  
                  <button 
                    onClick={() => window.print()} 
-                   className="group h-11 px-6 bg-slate-900 text-white rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2.5 shadow-lg shadow-slate-900/20"
+                   className="group h-11 px-6 bg-slate-900 text-white rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2.5 shadow-lg shadow-slate-900/20 hover-lift tap-bounce"
                    title="Export PDF"
                  >
                    <DownloadIcon size={15} className="group-hover:-translate-y-0.5 transition-transform" />
@@ -172,6 +172,7 @@ const ResumeBuilder = () => {
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20 }}
                 className='glass-light rounded-3xl p-8 border border-slate-300/60 shadow-2xl relative'
               >
                 <div className="flex items-center gap-2 mb-6">
@@ -251,12 +252,16 @@ const ResumeBuilder = () => {
               </motion.div>
             </div>
 
-            {/* Preview Column */}
-            <div className='lg:col-span-8 flex flex-col gap-6'>
-               <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-slate-300/60 shadow-black/5">
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
+              className='lg:col-span-8 flex flex-col gap-6'
+            >
+               <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-slate-300/60 shadow-black/5 hover:shadow-slate-200/50 transition-all duration-500">
                  <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

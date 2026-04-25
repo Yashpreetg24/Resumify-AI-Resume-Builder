@@ -124,9 +124,10 @@ const Dashboard = () => {
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
             className='lg:col-span-4'
           >
-            <div className='glass-light p-7 rounded-3xl border-2 border-slate-300/60 shadow-2xl shadow-slate-200/50 h-full relative overflow-hidden group hover:border-primary/30 transition-all bg-white/40'>
+            <div className='glass-light p-7 rounded-3xl border-2 border-slate-300/60 shadow-2xl shadow-slate-200/50 h-full relative overflow-hidden group hover:border-primary/30 transition-all duration-500 bg-white/40 hover-lift'>
               <div className="absolute top-0 right-0 p-5 text-accent/10 -rotate-12 group-hover:rotate-0 transition-transform duration-700">
                  <Layout size={80} />
               </div>
@@ -153,7 +154,7 @@ const Dashboard = () => {
           <div className='lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5'>
              <button
                 onClick={() => setShowCreateResume(true)}
-                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-300/60 shadow-2xl shadow-accent/5 hover:border-accent/40 transition-all bg-white/40'
+                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-300/60 shadow-2xl shadow-accent/5 hover:border-accent/40 transition-all duration-500 bg-white/40 hover-lift tap-bounce'
              >
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-brand-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="size-12 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform duration-500">
@@ -170,7 +171,7 @@ const Dashboard = () => {
 
              <button
                 onClick={() => setShowUploadResume(true)}
-                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-300/60 shadow-2xl shadow-slate-200/40 hover:border-blue-400/30 transition-all bg-white/40'
+                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-300/60 shadow-2xl shadow-slate-200/40 hover:border-blue-400/30 transition-all duration-500 bg-white/40 hover-lift tap-bounce'
              >
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="size-12 bg-slate-900 text-white rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/20 group-hover:scale-110 transition-transform duration-500">
@@ -223,10 +224,17 @@ const Dashboard = () => {
               return (
                 <motion.div
                   key={resume._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className='group relative bg-white border border-slate-300/60 rounded-[2rem] p-5 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-accent/20 transition-all duration-500'
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 100, 
+                    damping: 20,
+                    delay: index * 0.05 
+                  }}
+                  className='group relative bg-white border border-slate-300/60 rounded-[2rem] p-5 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-accent/20 transition-all duration-500 hover-lift'
                 >
                   {/* Card Main Area */}
                   <div 
