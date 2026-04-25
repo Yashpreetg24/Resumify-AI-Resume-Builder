@@ -55,11 +55,6 @@ const Login = () => {
             </Link>
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="flex justify-center mb-6">
-                    <div className="size-12 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                        <SparkleIcon size={24} fill="currentColor" />
-                    </div>
-                </div>
                 <h2 className="text-center text-3xl font-extrabold text-slate-900 tracking-tight">
                     {state === "login" ? "Welcome back" : "Create your account"}
                 </h2>
@@ -140,7 +135,7 @@ const Login = () => {
                                     onClick={() => setShowPassword(!showPassword)}
                                     className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600"
                                 >
-                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                                 </button>
                             </div>
                         </div>
@@ -155,7 +150,7 @@ const Login = () => {
                             ) : (
                                 <CheckCircle2 className="mr-2" size={18} />
                             )}
-                            {state === "login" ? "Sign In" : "Sign Up"}
+                            {state === "login" ? "Log In" : "Sign Up"}
                         </button>
                     </form>
 
@@ -164,7 +159,15 @@ const Login = () => {
                             onClick={() => setState(prev => prev === "login" ? "register" : "login")}
                             className="text-sm font-bold text-primary hover:text-primary/80 transition-colors"
                         >
-                            {state === "login" ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+                            {state === "login" ? (
+                                <>
+                                    <span className="text-slate-500 font-medium">Don't have an account?</span> Sign up
+                                </>
+                            ) : (
+                                <>
+                                    <span className="text-slate-500 font-medium">Already have an account?</span> Log in
+                                </>
+                            )}
                         </button>
                     </div>
                 </motion.div>
