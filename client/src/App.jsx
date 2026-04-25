@@ -49,6 +49,9 @@ const App = () => {
         </Route>
 
         <Route path='view/:resumeId' element={<Preview />}/>
+        
+        {/* Catch-all route to prevent blank pages */}
+        <Route path="*" element={<Home />} />
 
       </Routes>
     </>
