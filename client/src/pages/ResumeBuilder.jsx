@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Zap, User, Save, Layers, Palette, Share, Download } from 'lucide-react'
+import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Zap, User, Save, Layers, Palette, Share, Download, Sparkle } from 'lucide-react'
 import PersonalInfoForm from '../components/PersonalInfoForm'
 import ResumePreview from '../components/ResumePreview'
 import TemplateSelector from '../components/TemplateSelector'
@@ -38,6 +38,7 @@ const ResumeBuilder = () => {
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0)
   const [showTemplateGallery, setShowTemplateGallery] = useState(false);
+  const [showExitModal, setShowExitModal] = useState(false);
 
   const sections = [
     { id: "personal", name: "Profile", icon: User },
@@ -109,59 +110,43 @@ const ResumeBuilder = () => {
   }
 
   return (
-    <div className='min-h-screen pt-32 pb-20 relative mesh-gradient-light bg-grid-slate-100 overflow-x-hidden'>
+    <div className='min-h-screen pt-12 pb-8 relative mesh-gradient-light bg-grid-slate-100 overflow-x-hidden'>
       <div className='max-w-[1440px] mx-auto px-10 relative z-10'>
         {/* Navigation Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-8">
            <div className="flex items-center gap-6">
-              <button onClick={() => navigate('/app')} className="group flex items-center gap-3 px-5 py-3 glass-light rounded-2xl text-secondary hover:text-primary transition-all border-white shadow-sm hover:shadow-md">
+              <button onClick={() => setShowExitModal(true)} className="group flex items-center gap-3 px-5 py-3 glass-light rounded-2xl text-secondary hover:text-primary transition-all border-white shadow-sm hover:shadow-md">
                 <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Matrix_Exit</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Back</span>
               </button>
               <div className="h-8 w-[1px] bg-slate-200 hidden md:block"></div>
               <div className="hidden md:flex flex-col">
-                 <span className="text-[9px] font-black text-accent uppercase tracking-[0.4em] mb-0.5 opacity-60">System_Blueprint</span>
-                 <h1 className="text-xl font-black text-primary tracking-tight leading-none uppercase">{resumeData.title || "Untitled_Node"}</h1>
+                 <span className="text-[9px] font-black text-accent uppercase tracking-[0.4em] mb-0.5 opacity-60">Editing Resume</span>
+                 <h1 className="text-xl font-black text-primary tracking-tight leading-none uppercase">{resumeData.title || "Untitled Resume"}</h1>
               </div>
            </div>
 
            <div className="flex items-center gap-4 glass-light p-2 rounded-[1.5rem] border-white shadow-lg">
               <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
                  <div className={`size-2 rounded-full ${resumeData.public ? 'bg-green-500 animate-pulse' : 'bg-slate-300'}`}></div>
-                 <span className="text-[9px] font-black text-secondary uppercase tracking-widest">{resumeData.public ? 'Live_Feed' : 'Encrypted'}</span>
+                 <span className="text-[9px] font-black text-secondary uppercase tracking-widest">{resumeData.public ? 'Public' : 'Private'}</span>
               </div>
               
               <div className="h-4 w-[1px] bg-slate-200 mx-1"></div>
 
               <div className="flex items-center gap-2">
                  <button 
-                   onClick={handleShare}
-                   className="size-11 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-secondary hover:text-primary hover:border-primary/20 hover:bg-slate-50 transition-all shadow-sm group relative"
-                 >
-                    <Share size={18} />
-                    <span className="absolute bottom-full mb-3 px-3 py-1.5 bg-primary text-white text-[9px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none">Share</span>
-                 </button>
-
-                 <button 
-                   onClick={() => window.print()}
-                   className="size-11 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-secondary hover:text-primary hover:border-primary/20 hover:bg-slate-50 transition-all shadow-sm group relative"
-                 >
-                    <Download size={18} />
-                    <span className="absolute bottom-full mb-3 px-3 py-1.5 bg-primary text-white text-[9px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none">Export</span>
-                 </button>
-
-                 <button 
-                   onClick={() => toast.promise(saveResume(), { loading: 'Syncing...', success: 'Blueprint Saved', error: 'Sync Failed' })} 
-                   className="h-11 px-6 bg-gradient-to-r from-accent to-brand-blue text-white rounded-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 shadow-xl shadow-accent/20"
+                   onClick={() => toast.promise(saveResume(), { loading: 'Saving...', success: 'Resume Saved', error: 'Save Failed' })} 
+                   className="h-11 px-6 bg-slate-900 text-white rounded-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 shadow-xl shadow-slate-900/20"
                  >
                     <Save size={18} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Commit</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">Save Changes</span>
                  </button>
               </div>
            </div>
         </div>
 
-        <div className='flex gap-10 items-start h-[calc(100vh-16rem)] overflow-hidden'>
+        <div className='flex gap-10 items-start h-[calc(100vh-10rem)] overflow-hidden'>
           {/* Vertical Navigation Sidebar */}
           <aside className='w-20 flex flex-col gap-4 py-8 glass-light rounded-[2.5rem] border-white/60 items-center sticky top-0'>
              {sections.map((section, index) => (
@@ -201,11 +186,11 @@ const ResumeBuilder = () => {
           {/* Main Builder Grid */}
           <div className='flex-1 grid lg:grid-cols-12 gap-10 h-full overflow-y-auto custom-scrollbar pr-4'>
             {/* Form Column */}
-            <div className='lg:col-span-5 flex flex-col gap-8'>
+            <div className='lg:col-span-4 flex flex-col gap-8'>
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className='glass-light rounded-[2.5rem] p-10 border-white shadow-2xl relative overflow-hidden'
+                className='glass-light rounded-3xl p-8 border-white shadow-2xl relative overflow-hidden'
               >
                 {/* Section Header */}
                 <div className="flex items-center justify-between mb-10">
@@ -214,12 +199,11 @@ const ResumeBuilder = () => {
                         <activeSection.icon size={22} />
                      </div>
                      <div>
-                       <div className="text-[10px] text-accent font-black uppercase tracking-[0.4em] mb-1 opacity-60">// STAGE_{activeSectionIndex + 1}</div>
                        <h2 className="text-primary font-black text-2xl tracking-tight leading-none uppercase">{activeSection.name}</h2>
                      </div>
                    </div>
                    <div className="text-right">
-                      <div className="text-[10px] font-black text-secondary uppercase tracking-widest mb-1">Status</div>
+                      <div className="text-[10px] font-black text-secondary uppercase tracking-widest mb-1">Progress</div>
                       <div className="text-lg font-black text-primary leading-none uppercase">{Math.round(((activeSectionIndex + 1) / sections.length) * 100)}%</div>
                    </div>
                 </div>
@@ -259,9 +243,9 @@ const ResumeBuilder = () => {
                       if (activeSectionIndex === sections.length - 1) saveResume();
                       else setActiveSectionIndex(prev => prev + 1);
                     }}
-                    className="flex items-center gap-3 px-10 h-14 bg-primary hover:scale-[1.02] active:scale-95 text-white rounded-2xl font-black text-[11px] tracking-[0.2em] uppercase shadow-xl shadow-primary/20 transition-all"
+                    className="flex items-center gap-3 px-10 h-14 bg-slate-900 hover:scale-[1.02] active:scale-95 text-white rounded-2xl font-black text-[11px] tracking-[0.2em] uppercase shadow-xl shadow-slate-900/20 transition-all"
                   >
-                    {activeSectionIndex === sections.length - 1 ? 'Save Blueprint' : 'Next Stage'}
+                    {activeSectionIndex === sections.length - 1 ? 'Finish & Save' : 'Next Section'}
                     <ChevronRight size={16} />
                   </button>
                 </div>
@@ -273,7 +257,7 @@ const ResumeBuilder = () => {
             </div>
 
             {/* Preview Column */}
-            <div className='lg:col-span-7 flex flex-col gap-6'>
+            <div className='lg:col-span-8 flex flex-col gap-6'>
               <div className="flex items-center justify-end gap-3 mb-4">
                  <button onClick={changeResumeVisibility} className="flex items-center gap-2 px-5 h-12 glass-light rounded-2xl text-[9px] font-black tracking-[0.3em] text-secondary hover:text-primary transition-all uppercase border-white/60">
                    {resumeData.public ? <EyeIcon size={14} className="text-accent" /> : <EyeOffIcon size={14} />}
@@ -294,6 +278,68 @@ const ResumeBuilder = () => {
           </div>
         </div>
       </div>
+
+      {/* Exit Confirmation Modal */}
+      <AnimatePresence>
+        {showExitModal && (
+          <div className="fixed inset-0 z-[300] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowExitModal(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-[400px] bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100"
+            >
+              {/* Top Accent Bar */}
+              <div className="h-2 w-full bg-slate-900"></div>
+
+              <div className="p-8 pt-10 text-center">
+                 <div className="size-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-900 mx-auto mb-6 border border-slate-100 shadow-sm">
+                    <Save size={24} />
+                 </div>
+                 
+                 <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2">Unsaved Changes</h3>
+                 <p className="text-sm text-slate-500 font-medium leading-relaxed px-4 mb-8">
+                    You're about to leave the builder. Would you like to save your latest improvements before exiting?
+                 </p>
+                 
+                 <div className="flex flex-col gap-3">
+                    <button 
+                      onClick={async () => {
+                        await toast.promise(saveResume(), { loading: 'Saving Changes...', success: 'Resume Saved', error: 'Save Failed' });
+                        navigate('/app');
+                      }}
+                      className="w-full h-12 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10"
+                    >
+                      <Save size={16} />
+                      Save & Exit
+                    </button>
+                    
+                    <button 
+                      onClick={() => setShowExitModal(false)}
+                      className="w-full h-12 bg-white text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-50 transition-all border border-slate-200 flex items-center justify-center"
+                    >
+                      Stay and Edit
+                    </button>
+
+                    <button 
+                      onClick={() => navigate('/app')}
+                      className="mt-2 text-[10px] font-bold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-widest"
+                    >
+                      Exit without saving
+                    </button>
+                 </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <TemplateGallery
         isOpen={showTemplateGallery}

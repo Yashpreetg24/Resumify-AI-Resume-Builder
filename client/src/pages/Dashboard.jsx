@@ -21,13 +21,15 @@ const Dashboard = () => {
   const [selectedTemplate, setSelectedTemplate] = useState('classic')
   const [selectedColor, setSelectedColor] = useState('#6366f1')
   const [isLoading, setIsLoading] = useState(false)
+  const [showAllResumes, setShowAllResumes] = useState(false)
 
   const navigate = useNavigate()
 
   const loadAllResumes = useCallback(async () => {
     try {
       const { data } = await api.get('/api/users/resumes', { headers: { Authorization: token } })
-      setAllResumes(data.resumes)
+      const sortedResumes = data.resumes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      setAllResumes(sortedResumes)
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
@@ -171,7 +173,7 @@ const Dashboard = () => {
                 className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-200 shadow-2xl shadow-slate-200/40 hover:border-blue-400/30 transition-all bg-white/40'
              >
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="size-12 bg-white border border-slate-200 text-primary rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                <div className="size-12 bg-slate-900 text-white rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/20 group-hover:scale-110 transition-transform duration-500">
                    <UploadCloud size={20} />
                 </div>
                 <div>
@@ -187,9 +189,19 @@ const Dashboard = () => {
 
         {/* Resume Grid Section */}
         <div className='flex items-center justify-between mb-8'>
-          <h2 className='text-2xl font-black text-primary tracking-tight'>Recent Deployments</h2>
+          <h2 className='text-2xl font-black text-primary tracking-tight'>Your Resumes</h2>
           <div className="h-px flex-1 bg-slate-100 mx-6 hidden sm:block"></div>
-          <span className="text-[9px] font-black text-secondary uppercase tracking-[0.3em]">Latest updates first</span>
+          {allResumes.length > 4 && (
+            <button 
+              onClick={() => setShowAllResumes(!showAllResumes)}
+              className="flex items-center gap-2 group/all"
+            >
+              <span className="text-[10px] font-black text-secondary uppercase tracking-[0.2em] group-hover/all:text-primary transition-colors">
+                {showAllResumes ? 'Show less' : 'View all'}
+              </span>
+              <ChevronRight size={12} className={`text-secondary group-hover/all:text-primary transition-all ${showAllResumes ? 'rotate-90' : 'group-hover/all:translate-x-1'}`} />
+            </button>
+          )}
         </div>
 
         {allResumes.length === 0 ? (
@@ -201,12 +213,12 @@ const Dashboard = () => {
             <div className="size-20 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-300 mb-6">
                <FileText size={40} strokeWidth={1} />
             </div>
-            <h3 className="text-xl font-bold text-primary mb-2">No blueprints found</h3>
-            <p className='text-secondary max-w-sm'>Deploy your first resume to see it here in your neural cloud storage.</p>
+            <h3 className="text-xl font-bold text-primary mb-2">No resumes found</h3>
+            <p className='text-secondary max-w-sm text-sm opacity-60'>Start your career journey by creating or uploading your first resume.</p>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {allResumes.map((resume, index) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {allResumes.slice(0, showAllResumes ? allResumes.length : 4).map((resume, index) => {
               const baseColor = colors[index % colors.length];
               return (
                 <motion.div
@@ -214,38 +226,53 @@ const Dashboard = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className='group glass-card-modern p-4 rounded-[2.5rem] relative'
+                  className='group relative bg-white border border-slate-100 rounded-[2rem] p-5 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-accent/20 transition-all duration-500'
                 >
+                  {/* Card Main Area */}
                   <div 
-                    onClick={() => navigate(`/app/builder/${resume._id}`)}
-                    className='w-full aspect-[4/5] rounded-[1.8rem] flex flex-col items-center justify-center gap-8 cursor-pointer relative overflow-hidden mb-6'
+                    className='relative w-full aspect-video rounded-2xl flex flex-col items-center justify-center overflow-hidden mb-4'
                     style={{ background: `${baseColor}08` }}
                   >
                      <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                     <div className='size-20 bg-white rounded-3xl flex items-center justify-center shadow-xl shadow-black/5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 relative z-10'>
-                        <FilePenLineIcon className="size-10" style={{ color: baseColor }} />
-                     </div>
-                     <div className="text-center px-6 relative z-10">
-                        <h4 className='font-black text-primary text-xl tracking-tight truncate w-full max-w-[180px] mb-2'>{resume.title}</h4>
-                        <div className="flex items-center justify-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest opacity-60">
-                           <Clock size={12} />
-                           {new Date(resume.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                        </div>
+                     
+                     <div className='size-12 bg-white rounded-xl flex items-center justify-center shadow-xl shadow-black/5 group-hover:rotate-3 transition-all duration-500 relative z-10'>
+                        <FilePenLineIcon className="size-6" style={{ color: baseColor }} />
                      </div>
                   </div>
 
-                  <div className="flex items-center justify-between px-2">
+                  {/* Info Area */}
+                  <div className="px-0.5 mb-3">
+                    <div className="flex items-center justify-between gap-2 mb-0.5">
+                      <h4 className='font-black text-primary text-sm tracking-tight truncate flex-1'>{resume.title}</h4>
+                      <div className="flex items-center gap-1 text-[8px] font-black text-secondary uppercase tracking-widest opacity-40">
+                         <Clock size={8} />
+                         {new Date(resume.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions Toolbar */}
+                  <div className="flex items-center gap-1.5 pt-3 border-t border-slate-50">
+                     <button 
+                       onClick={() => navigate(`/app/builder/${resume._id}`)}
+                       className="flex-1 bg-slate-50 hover:bg-primary hover:text-white py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 group/btn"
+                     >
+                        Open Editor
+                        <ChevronRight size={10} className="group-hover/btn:translate-x-1 transition-transform" />
+                     </button>
                      <button 
                        onClick={() => { setEditResumeId(resume._id); setTitle(resume.title) }}
-                       className="p-3 bg-slate-50 hover:bg-accent/10 hover:text-accent rounded-xl transition-all"
+                       className="p-2 bg-slate-50 hover:bg-accent/10 hover:text-accent rounded-lg transition-all"
+                       title="Rename"
                      >
-                        <PencilIcon size={16} />
+                        <PencilIcon size={12} />
                      </button>
                      <button 
                        onClick={() => deleteResume(resume._id)}
-                       className="p-3 bg-slate-50 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all"
+                       className="p-2 bg-slate-50 hover:bg-red-50 hover:text-red-500 rounded-lg transition-all"
+                       title="Delete"
                      >
-                        <TrashIcon size={16} />
+                        <TrashIcon size={12} />
                      </button>
                   </div>
                 </motion.div>
