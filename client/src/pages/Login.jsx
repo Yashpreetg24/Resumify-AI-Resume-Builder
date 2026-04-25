@@ -1,21 +1,26 @@
-import { Lock, Mail, User2Icon, ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import { Lock, Mail, User, ArrowLeft, Eye, EyeOff, CheckCircle2 } from 'lucide-react'
 import React, { useState } from 'react'
 import api from '../configs/api'
 import { useDispatch } from 'react-redux'
 import { login } from '../app/features/authSlice'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Login = () => {
-
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const query = new URLSearchParams(window.location.search)
     const urlState = query.get('state')
-    const [state, setState] = React.useState(urlState || "login")
+    const [state, setState] = useState(urlState || "login")
     const [showPassword, setShowPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
 
-    const [formData, setFormData] = React.useState({
+    React.useEffect(() => {
+        if (urlState) setState(urlState)
+    }, [urlState])
+
+    const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: ''
@@ -23,6 +28,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         try {
             const { data } = await api.post(`/api/users/${state}`, formData)
             dispatch(login(data))
@@ -30,7 +36,9 @@ const Login = () => {
             toast.success(data.message)
             navigate('/')
         } catch (error) {
-            toast(error?.response?.data?.message || error.message)
+            toast.error(error?.response?.data?.message || "Authentication failed")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -38,54 +46,144 @@ const Login = () => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
     }
+
     return (
-        <div className='flex items-center justify-center min-h-screen bg-gray-50 relative'>
-            <Link to="/" className="absolute top-6 left-6 md:top-10 md:left-10 flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-all group">
-                <div className="p-2 rounded-full border border-slate-200 group-hover:border-slate-300 group-hover:bg-white group-active:scale-90 transition-all shadow-sm">
-                    <ArrowLeft size={18} />
-                </div>
-                <span className="text-sm font-semibold">Back to Home</span>
+        <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative font-sans">
+            <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-semibold text-sm">
+                <ArrowLeft size={18} />
+                Back to home
             </Link>
-            <form onSubmit={handleSubmit} className="sm:w-[420px] w-[90%] text-center border border-gray-300/60 rounded-3xl px-10 py-6 bg-white shadow-xl shadow-gray-200/40">
-                <h1 className="text-gray-900 text-3xl mt-10 font-bold tracking-tight">{state === "login" ? "Welcome Back" : "Create Account"}</h1>
-                <p className="text-gray-500 text-sm mt-2 mb-10">Please {state === "login" ? "login" : "register"} to continue your journey</p>
-                {state !== "login" && (
-                    <div className="flex items-center w-full bg-white border border-gray-200 h-12 rounded-full overflow-hidden px-6 gap-3 focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-500/5 transition-all mb-4">
-                        <User2Icon size={18} className="text-gray-400 shrink-0" />
-                        <input type="text" name="name" placeholder="Full Name" className="w-full h-full border-none outline-none ring-0 focus:ring-0 text-sm text-gray-800 placeholder:text-gray-400 font-medium bg-transparent" value={formData.name} onChange={handleChange} required />
+
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="flex justify-center mb-6">
+                    <div className="size-12 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                        <SparkleIcon size={24} fill="currentColor" />
                     </div>
-                )}
-                <div className="flex items-center w-full bg-white border border-gray-200 h-12 rounded-full overflow-hidden px-6 gap-3 focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-500/5 transition-all mb-4">
-                    <Mail size={18} className="text-gray-400 shrink-0" />
-                    <input type="email" name="email" placeholder="Email Address" className="w-full h-full border-none outline-none ring-0 focus:ring-0 text-sm text-gray-800 placeholder:text-gray-400 font-medium bg-transparent" value={formData.email} onChange={handleChange} required />
                 </div>
-                <div className="flex items-center w-full bg-white border border-gray-200 h-12 rounded-full overflow-hidden px-6 gap-3 focus-within:border-green-500 focus-within:ring-4 focus-within:ring-green-500/5 transition-all mb-4">
-                    <Lock size={18} className="text-gray-400 shrink-0" />
-                    <input type={showPassword ? "text" : "password"} name="password" placeholder="Password" className="w-full h-full border-none outline-none ring-0 focus:ring-0 text-sm text-gray-800 placeholder:text-gray-400 font-medium bg-transparent" value={formData.password} onChange={handleChange} required />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
-                        {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                    </button>
-                </div>
+                <h2 className="text-center text-3xl font-extrabold text-slate-900 tracking-tight">
+                    {state === "login" ? "Welcome back" : "Create your account"}
+                </h2>
+                <p className="mt-2 text-center text-sm text-slate-500">
+                    {state === "login" ? "Enter your details to access your account" : "Join thousands of professionals today"}
+                </p>
+            </div>
 
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white py-10 px-6 shadow-xl shadow-slate-200/60 rounded-[2rem] border border-slate-100"
+                >
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        <AnimatePresence mode="wait">
+                            {state !== "login" && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="space-y-1"
+                                >
+                                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider ml-1">Full Name</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                                            <User size={18} />
+                                        </div>
+                                        <input
+                                            name="name"
+                                            type="text"
+                                            required
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            className="block w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-2xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm font-medium"
+                                            placeholder="John Doe"
+                                        />
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
-                <button type="submit" className="mt-4 w-full h-12 rounded-full text-white bg-green-500 hover:bg-green-600 active:scale-[0.98] transition-all font-bold text-base shadow-lg shadow-green-100">
-                    {state === "login" ? "Login" : "Sign Up"}
-                </button>
-                <p onClick={() => setState(prev => prev === "login" ? "register" : "login")} className="text-gray-500 text-sm mt-6 mb-11">{state === "login" ? "Don't have an account?" : "Already have an account?"} <span className="text-green-500 hover:underline cursor-pointer font-semibold ml-1">click here</span></p>
-            </form>
-            <style>
-                {`
-                    input:-webkit-autofill,
-                    input:-webkit-autofill:hover, 
-                    input:-webkit-autofill:focus, 
-                    input:-webkit-autofill:active  {
-                        -webkit-box-shadow: 0 0 0 30px white inset !important;
-                        transition: background-color 5000s ease-in-out 0s;
-                    }
-                `}
-            </style>
+                        <div className="space-y-1">
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider ml-1">Email Address</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                                    <Mail size={18} />
+                                </div>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="block w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-2xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm font-medium"
+                                    placeholder="you@example.com"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-1">
+                            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider ml-1">Password</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                                    <Lock size={18} />
+                                </div>
+                                <input
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    required
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="block w-full pl-11 pr-12 py-3.5 border border-slate-200 rounded-2xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm font-medium"
+                                    placeholder="••••••••"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600"
+                                >
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-2xl shadow-lg text-sm font-bold text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-all hover:scale-[1.02] active:scale-95"
+                        >
+                            {loading ? (
+                                <LoaderIcon className="animate-spin mr-2" size={18} />
+                            ) : (
+                                <CheckCircle2 className="mr-2" size={18} />
+                            )}
+                            {state === "login" ? "Sign In" : "Sign Up"}
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center">
+                        <button
+                            onClick={() => setState(prev => prev === "login" ? "register" : "login")}
+                            className="text-sm font-bold text-primary hover:text-primary/80 transition-colors"
+                        >
+                            {state === "login" ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+                        </button>
+                    </div>
+                </motion.div>
+            </div>
         </div>
     )
 }
+
+const SparkleIcon = ({ size, fill, className }) => (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 7.92c.13 0 .26 0 .393 0a7.5 7.5 0 0 0-7.92-7.92c-.13 0-.26 0-.393 0a7.5 7.5 0 0 0-7.92 7.92c.13 0 .26 0 .393 0a7.5 7.5 0 0 0 7.92-7.92z" />
+        <path d="M12 21c-.132 0-.263 0-.393 0a7.5 7.5 0 0 0-7.92-7.92c-.13 0-.26 0-.393 0a7.5 7.5 0 0 0 7.92 7.92c.13 0 .26 0 .393 0a7.5 7.5 0 0 0 7.92-7.92c-.13 0-.26 0-.393 0a7.5 7.5 0 0 0-7.92 7.92z" />
+    </svg>
+)
+
+const LoaderIcon = ({ className, size }) => (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
+)
 
 export default Login

@@ -1,11 +1,11 @@
-import { Briefcase, Loader2, Plus, Sparkles, Trash2 } from 'lucide-react'
+import { Briefcase, Loader2, Plus, Zap, Trash2, Calendar, Building2 } from 'lucide-react'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const ExperienceForm = ({ data, onChange }) => {
-
     const { token } = useSelector(state => state.auth)
     const [generatingIndex, setGeneratingIndex] = useState(-1)
 
@@ -48,68 +48,114 @@ const updateExperience = (index, field, value)=>{
  }
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-8'>
       <div className='flex items-center justify-between'>
-        <div>
-            <h3 className='flex items-center gap-2 text-lg font-semibold text-gray-900'> Professional Experience </h3>
-            <p className='text-sm text-gray-500'>Add your job experience</p>
-        </div>
-        <button onClick={addExperience} className='flex items-center gap-2 px-3 py-1 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors'>
-            <Plus className="size-4"/>
-            Add Experience
+        <span className="text-[10px] font-black text-secondary uppercase tracking-[0.3em]">Career Nodes</span>
+        <button 
+          onClick={addExperience} 
+          className='flex items-center gap-2 px-6 h-10 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20'
+        >
+            <Plus size={14}/>
+            Add Node
         </button>
       </div>
 
       {data.length === 0 ? (
-        <div className='text-center py-8 text-gray-500'>
-            <Briefcase className="w-12 h-12 mx-auto mb-3 text-gray-300"/>
-            <p>No work experience added yet.</p>
-            <p className="text-sm">Click "Add Experience" to get started.</p>
+        <div className='glass-light border-dashed border-2 border-slate-200 rounded-[2rem] p-16 flex flex-col items-center text-center opacity-60'>
+            <div className="size-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 mb-6">
+               <Briefcase size={32} strokeWidth={1} />
+            </div>
+            <p className='text-sm font-bold text-primary'>No career history found.</p>
+            <p className="text-[10px] font-black text-secondary uppercase tracking-widest mt-2">Initialize your first experience node.</p>
         </div>
       ): (
-        <div className='space-y-4'>
+        <div className='space-y-6'>
+            <AnimatePresence>
             {data.map((experience, index)=>(
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3">
-                    <div className='flex justify-between items-start'>
-                        <h4>Experience #{index + 1}</h4>
-                        <button onClick={()=> removeExperience(index)} className='text-red-500 hover:text-red-700 transition-colors'>
-                            <Trash2 className="size-4"/>
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-sm relative group"
+                >
+                    <div className='flex justify-between items-center mb-8'>
+                        <div className="flex items-center gap-4">
+                           <div className="size-10 bg-slate-50 rounded-xl flex items-center justify-center text-secondary font-black text-xs">
+                              {index + 1}
+                           </div>
+                           <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Node_{index + 1}</h4>
+                        </div>
+                        <button 
+                          onClick={()=> removeExperience(index)} 
+                          className='size-10 flex items-center justify-center bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all'
+                        >
+                            <Trash2 size={16}/>
                         </button>
                     </div>
 
-                    <div className='grid md:grid-cols-2 gap-3'>
+                    <div className='grid md:grid-cols-2 gap-6'>
+                        <div className="space-y-2">
+                           <label className="flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest pl-1">
+                              <Building2 size={12} className="text-accent" />
+                              Company
+                           </label>
+                           <input value={experience.company || ""} onChange={(e)=>updateExperience(index, "company", e.target.value)} type="text" placeholder="e.g. Google" className="w-full bg-white border border-slate-50 rounded-xl px-5 py-3.5 text-sm font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                        </div>
 
-                        <input value={experience.company || ""} onChange={(e)=>updateExperience(index, "company", e.target.value)} type="text" placeholder="Company Name" className="px-3 py-2 text-sm rounded-lg"/>
+                        <div className="space-y-2">
+                           <label className="flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest pl-1">
+                              <Briefcase size={12} className="text-accent" />
+                              Role
+                           </label>
+                           <input value={experience.position || ""} onChange={(e)=>updateExperience(index, "position", e.target.value)} type="text" placeholder="e.g. Lead Designer" className="w-full bg-white border border-slate-50 rounded-xl px-5 py-3.5 text-sm font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                        </div>
 
-                        <input value={experience.position || ""} onChange={(e)=>updateExperience(index, "position", e.target.value)} type="text" placeholder="Job Title" className="px-3 py-2 text-sm rounded-lg"/>
+                        <div className="space-y-2">
+                           <label className="flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest pl-1">
+                              <Calendar size={12} className="text-accent" />
+                              From
+                           </label>
+                           <input value={experience.start_date || ""} onChange={(e)=>updateExperience(index, "start_date", e.target.value)} type="month" className="w-full bg-white border border-slate-50 rounded-xl px-5 py-3.5 text-sm font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                        </div>
 
-                        <input value={experience.start_date || ""} onChange={(e)=>updateExperience(index, "start_date", e.target.value)} type="month" className="px-3 py-2 text-sm rounded-lg"/>
-
-                        <input value={experience.end_date || ""} onChange={(e)=>updateExperience(index, "end_date", e.target.value)} type="month" disabled={experience.is_current} className="px-3 py-2 text-sm rounded-lg disabled:bg-gray-100"/>
+                        <div className="space-y-2">
+                           <label className="flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest pl-1">
+                              <Calendar size={12} className="text-accent" />
+                              To
+                           </label>
+                           <input value={experience.end_date || ""} onChange={(e)=>updateExperience(index, "end_date", e.target.value)} type="month" disabled={experience.is_current} className="w-full bg-white border border-slate-50 rounded-xl px-5 py-3.5 text-sm font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all disabled:opacity-30"/>
+                        </div>
                     </div>
 
-                    <label className='flex items-center gap-2'>
-                        <input type="checkbox" checked={experience.is_current || false} onChange={(e)=>{updateExperience(index, "is_current", e.target.checked ? true : false); }} className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'/>
-                        <span className='text-sm text-gray-700'>Currently working here</span>
-                    </label>
+                    <div className="mt-6 flex items-center gap-3">
+                        <input 
+                          type="checkbox" 
+                          id={`current-${index}`}
+                          checked={experience.is_current || false} 
+                          onChange={(e)=>updateExperience(index, "is_current", e.target.checked)} 
+                          className='size-5 rounded-lg border-slate-200 text-primary focus:ring-primary/10'
+                        />
+                        <label htmlFor={`current-${index}`} className='text-[11px] font-black text-secondary uppercase tracking-widest cursor-pointer'>Still deployment in progress</label>
+                    </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-4 mt-10">
                         <div className='flex items-center justify-between'>
-                            <label className='text-sm font-medium text-gray-700'>Job Description</label>
-                            <button onClick={()=> generateDescription(index)} disabled={generatingIndex === index || !experience.position || !experience.company} className='flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
-                                {generatingIndex === index ? (
-                                    <Loader2 className="w-3 h-3 animate-spin"/>
-                                ): (
-                                    <Sparkles className='w-3 h-3'/>
-                                )}
-                                
-                                Enhance with AI
+                            <span className="text-[10px] font-black text-secondary uppercase tracking-widest pl-1">Action Description</span>
+                            <button 
+                              onClick={()=> generateDescription(index)} 
+                              disabled={generatingIndex === index || !experience.position || !experience.company} 
+                              className='flex items-center gap-2 px-4 h-8 bg-accent/5 text-accent rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-accent/10 transition-all disabled:opacity-30'
+                            >
+                                {generatingIndex === index ? <Loader2 size={12} className="animate-spin"/> : <Zap size={12}/>}
+                                AI Synthesis
                             </button>
                         </div>
-                        <textarea value={experience.description || ""} onChange={(e)=> updateExperience(index, "description", e.target.value)} rows={4} className="w-full text-sm px-3 py-2 rounded-lg resize-none" placeholder="Describe your key responsibilities and achievements..."/>
+                        <textarea value={experience.description || ""} onChange={(e)=> updateExperience(index, "description", e.target.value)} rows={5} className="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-5 text-sm font-medium text-primary placeholder:text-slate-300 focus:bg-white focus:border-accent/20 outline-none transition-all resize-none leading-relaxed" placeholder="Summarize your impact and technical achievements..."/>
                     </div>
-                </div>
+                </motion.div>
             ))}
+            </AnimatePresence>
         </div>
       )}
     </div>

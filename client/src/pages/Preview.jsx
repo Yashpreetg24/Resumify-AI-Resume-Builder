@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { dummyResumeData } from '../assets/assets'
 import ResumePreview from '../components/ResumePreview'
 import Loader from '../components/Loader'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -12,7 +11,7 @@ const Preview = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [resumeData, setResumeData] = useState(null)
 
-  const loadResume = async () => {
+  const loadResume = React.useCallback(async () => {
     try {
       const { data } = await api.get('/api/resumes/public/' + resumeId)
       setResumeData(data.resume)
@@ -21,11 +20,11 @@ const Preview = () => {
     }finally{
       setIsLoading(false)
     }
-  }
+  }, [resumeId])
 
   useEffect(()=>{
     loadResume()
-  },[])
+  },[loadResume])
   return resumeData ? (
     <div className='bg-slate-100'>
       <div className='max-w-3xl mx-auto py-10'>

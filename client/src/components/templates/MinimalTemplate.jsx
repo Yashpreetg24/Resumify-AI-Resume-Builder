@@ -1,135 +1,132 @@
+import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
 
-const MinimalTemplate = ({ data, accentColor }) => {
+const MinimalTemplate = ({ data }) => {
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
-        // If it's already a formatted string (like "May 2024"), just return it
         if (dateStr.includes(' ') || isNaN(dateStr.split('-')[0])) return dateStr;
-
         const [year, month] = dateStr.split("-");
         const date = new Date(year, (month || 1) - 1);
-
-        if (isNaN(date.getTime())) return dateStr; // Fallback to original string
-
-        return date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short"
-        });
+        if (isNaN(date.getTime())) return dateStr;
+        return date.toLocaleDateString("en-US", { year: "numeric", month: "short" });
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-8 bg-white text-gray-900 font-light">
+        <div className="bg-white text-slate-800 min-h-[11in] font-sans p-20 selection:bg-indigo-100 leading-relaxed">
             {/* Header */}
-            <header className="mb-10">
-                <h1 className="text-4xl font-thin mb-4 tracking-wide">
+            <header className="mb-20">
+                <h1 className="text-6xl font-black font-heading text-primary tracking-tighter leading-none uppercase mb-6">
                     {data.personal_info?.full_name || "Your Name"}
                 </h1>
-
-                <div className="flex flex-wrap gap-6 text-sm text-gray-600">
+                <div className="flex flex-wrap gap-x-10 gap-y-4 text-[10px] font-black uppercase tracking-[0.3em] text-secondary/40 border-t border-slate-100 pt-8">
                     {data.personal_info?.email && <span>{data.personal_info.email}</span>}
                     {data.personal_info?.phone && <span>{data.personal_info.phone}</span>}
                     {data.personal_info?.location && <span>{data.personal_info.location}</span>}
-                    {data.personal_info?.linkedin && (
-                        <a href={data.personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
-                    )}
-                    {data.personal_info?.website && (
-                        <a href={data.personal_info.website} target="_blank" rel="noopener noreferrer" className="hover:underline">Portfolio</a>
-                    )}
+                    {data.personal_info?.linkedin && <span>LinkedIn</span>}
+                    {data.personal_info?.website && <span>Portfolio</span>}
                 </div>
             </header>
 
-            {/* Professional Summary */}
-            {data.professional_summary && (
-                <section className="mb-10">
-                    <p className=" text-gray-700">
-                        {data.professional_summary}
-                    </p>
-                </section>
-            )}
+            <div className="space-y-20">
+                {/* Professional Summary */}
+                {data.professional_summary && (
+                    <section className="grid grid-cols-12 gap-8">
+                        <div className="col-span-3">
+                            <h2 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] pt-1">
+                                // ABOUT
+                            </h2>
+                        </div>
+                        <div className="col-span-9">
+                            <p className="text-xl font-medium leading-relaxed text-secondary/80">
+                                {data.professional_summary}
+                            </p>
+                        </div>
+                    </section>
+                )}
 
-            {/* Experience */}
-            {data.experience && data.experience.length > 0 && (
-                <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
-                        Experience
-                    </h2>
+                {/* Experience */}
+                {data.experience && data.experience.length > 0 && (
+                    <section className="grid grid-cols-12 gap-8">
+                        <div className="col-span-3">
+                            <h2 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] pt-1">
+                                // EXPERIENCE
+                            </h2>
+                        </div>
+                        <div className="col-span-9 space-y-16">
+                            {data.experience.map((exp, index) => (
+                                <div key={index} className="space-y-4">
+                                    <div className="flex justify-between items-end border-b border-slate-50 pb-4">
+                                        <div>
+                                            <h3 className="text-2xl font-black text-primary tracking-tight uppercase">{exp.position}</h3>
+                                            <p className="text-sm font-bold text-accent uppercase tracking-widest mt-1">{exp.company}</p>
+                                        </div>
+                                        <span className="text-[10px] font-black text-secondary/30 uppercase tracking-widest mb-1">
+                                            {formatDate(exp.start_date)} — {exp.is_current ? "PRESENT" : formatDate(exp.end_date)}
+                                        </span>
+                                    </div>
+                                    {exp.description && (
+                                        <div className="text-[14px] font-medium leading-relaxed text-secondary/70 whitespace-pre-line pt-2">
+                                            {exp.description}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
 
-                    <div className="space-y-6">
-                        {data.experience.map((exp, index) => (
-                            <div key={index}>
-                                <div className="flex justify-between items-baseline mb-1">
-                                    <h3 className="text-lg font-medium">{exp.position}</h3>
-                                    <span className="text-sm text-gray-500">
-                                        {formatDate(exp.start_date)} - {exp.is_current ? "Present" : formatDate(exp.end_date)}
+                {/* Education */}
+                {data.education && data.education.length > 0 && (
+                    <section className="grid grid-cols-12 gap-8">
+                        <div className="col-span-3">
+                            <h2 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] pt-1">
+                                // EDUCATION
+                            </h2>
+                        </div>
+                        <div className="col-span-9 space-y-10">
+                            {data.education.map((edu, index) => (
+                                <div key={index} className="flex justify-between items-start group">
+                                    <div className="space-y-1">
+                                        <h3 className="text-lg font-black text-primary uppercase tracking-tight">
+                                            {edu.degree}
+                                        </h3>
+                                        <p className="text-xs font-bold text-accent uppercase tracking-widest">{edu.institution}</p>
+                                        {edu.gpa && <p className="text-[10px] font-black text-secondary/30 uppercase tracking-widest pt-1">GPA: {edu.gpa}</p>}
+                                    </div>
+                                    <span className="text-[10px] font-black text-secondary/30 uppercase tracking-widest pt-1">
+                                        {formatDate(edu.graduation_date)}
                                     </span>
                                 </div>
-                                <p className="text-gray-600 mb-2">{exp.company}</p>
-                                {exp.description && (
-                                    <div className="text-gray-700 leading-relaxed whitespace-pre-line">
-                                        {exp.description}
-                                    </div>
-                                )}
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Skills */}
+                {data.skills && data.skills.length > 0 && (
+                    <section className="grid grid-cols-12 gap-8">
+                        <div className="col-span-3">
+                            <h2 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] pt-1">
+                                // CAPABILITIES
+                            </h2>
+                        </div>
+                        <div className="col-span-9">
+                            <div className="flex flex-wrap gap-x-8 gap-y-4">
+                                {data.skills.map((skill, index) => (
+                                    <span key={index} className="text-sm font-black text-primary uppercase tracking-wider">
+                                        {skill}
+                                    </span>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                </section>
-            )}
+                        </div>
+                    </section>
+                )}
+            </div>
 
-            {/* Projects */}
-            {data.project && data.project.length > 0 && (
-                <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
-                        Projects
-                    </h2>
-
-                    <div className="space-y-4">
-                        {data.project.map((proj, index) => (
-                            <div key={index} className="flex flex-col gap-2 justify-between items-baseline">
-                                <h3 className="text-lg font-medium ">{proj.name}</h3>
-                                <p className="text-gray-600">{proj.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Education */}
-            {data.education && data.education.length > 0 && (
-                <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
-                        Education
-                    </h2>
-
-                    <div className="space-y-4">
-                        {data.education.map((edu, index) => (
-                            <div key={index} className="flex justify-between items-baseline">
-                                <div>
-                                    <h3 className="font-medium">
-                                        {edu.degree} {edu.field && `in ${edu.field}`}
-                                    </h3>
-                                    <p className="text-gray-600">{edu.institution}</p>
-                                    {edu.gpa && <p className="text-sm text-gray-500">GPA: {edu.gpa}</p>}
-                                </div>
-                                <span className="text-sm text-gray-500">
-                                    {formatDate(edu.graduation_date)}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Skills */}
-            {data.skills && data.skills.length > 0 && (
-                <section>
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
-                        Skills
-                    </h2>
-
-                    <div className="text-gray-700">
-                        {data.skills.join(" • ")}
-                    </div>
-                </section>
-            )}
+            {/* Footer */}
+            <footer className="mt-32 pt-12 border-t border-slate-50 flex justify-between items-center text-[9px] font-black text-secondary/20 uppercase tracking-[0.5em]">
+                <span>Document Matrix v1.0</span>
+                <span>Synthesized by Resumify Engine</span>
+            </footer>
         </div>
     );
 }

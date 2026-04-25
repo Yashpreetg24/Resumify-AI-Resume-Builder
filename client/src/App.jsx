@@ -15,7 +15,7 @@ const App = () => {
 
   const dispatch = useDispatch()
 
-  const getUserData = async () => {
+  const getUserData = React.useCallback(async () => {
     const token = localStorage.getItem('token')
     try {
       if(token){
@@ -31,11 +31,11 @@ const App = () => {
       dispatch(setLoading(false))
       console.log(error.message)
     }
-  }
+  }, [dispatch])
 
   useEffect(()=>{
     getUserData()
-  },[])
+  },[getUserData])
 
   return (
     <>

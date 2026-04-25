@@ -1,4 +1,4 @@
-import { FilePenLineIcon, FileText, LoaderCircleIcon, PencilIcon, PlusIcon, Sparkles, TrashIcon, UploadCloud, UploadCloudIcon, XIcon } from 'lucide-react'
+import { FilePenLineIcon, FileText, LoaderCircleIcon, PencilIcon, PlusIcon, TrashIcon, UploadCloud, UploadCloudIcon, XIcon, Layout, ChevronRight, Clock, ShieldCheck } from 'lucide-react'
 import React, { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -6,12 +6,11 @@ import api from '../configs/api'
 import toast from 'react-hot-toast'
 import pdfToText from 'react-pdftotext'
 import TemplateGallery from '../components/TemplateGallery'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Dashboard = () => {
-
   const { user, token } = useSelector(state => state.auth)
-
-  const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"]
+  const colors = ["#6366f1", "#8b5cf6", "#3b82f6", "#10b981", "#f59e0b"]
   const [allResumes, setAllResumes] = useState([])
   const [showCreateResume, setShowCreateResume] = useState(false)
   const [showUploadResume, setShowUploadResume] = useState(false)
@@ -20,8 +19,7 @@ const Dashboard = () => {
   const [editResumeId, setEditResumeId] = useState('')
   const [showTemplateGallery, setShowTemplateGallery] = useState(false)
   const [selectedTemplate, setSelectedTemplate] = useState('classic')
-  const [selectedColor, setSelectedColor] = useState('#3B82F6')
-
+  const [selectedColor, setSelectedColor] = useState('#6366f1')
   const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
@@ -80,7 +78,6 @@ const Dashboard = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
-
   }
 
   const deleteResume = async (resumeId) => {
@@ -94,7 +91,6 @@ const Dashboard = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
-
   }
 
   useEffect(() => {
@@ -102,140 +98,267 @@ const Dashboard = () => {
   }, [loadAllResumes])
 
   return (
-    <div className='min-h-screen mesh-gradient'>
-      <div className='max-w-7xl mx-auto px-6 py-12'>
+    <div className='min-h-screen mesh-gradient-light bg-grid-slate-100 pt-32 pb-16'>
+      <div className='max-w-7xl mx-auto px-6'>
 
-        {/* Hero Section */}
-        <div className='mb-12'>
-          <h1 className='text-4xl md:text-5xl font-bold text-gradient mb-3'>
+        {/* Welcome Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className='mb-12'
+        >
+          <h1 className='text-4xl font-black text-primary tracking-tight mb-3'>
             Hi, {user?.name || 'Dreamer'}
           </h1>
-          <p className='text-slate-500 text-lg max-w-2xl leading-relaxed'>
-            Ready to design your resume for a milestone? Pick a template or upload your existing resume to get started with AI-powered enhancements.
+          <p className='text-secondary text-base max-w-2xl leading-relaxed opacity-80'>
+            Pick up where you left off or deploy a new career blueprint with our AI-enhanced templates.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Dashboard Stats & Actions Grid */}
-        <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16'>
+        {/* Quick Actions Grid */}
+        <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16'>
+          
+          {/* Main Status Card */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className='lg:col-span-4'
+          >
+            <div className='glass-light p-7 rounded-3xl border-2 border-slate-200 shadow-2xl shadow-slate-200/50 h-full relative overflow-hidden group hover:border-primary/30 transition-all bg-white/40'>
+              <div className="absolute top-0 right-0 p-5 text-accent/10 -rotate-12 group-hover:rotate-0 transition-transform duration-700">
+                 <Layout size={80} />
+              </div>
+              
+              <div className="relative z-10 h-full flex flex-col justify-between">
+                <div>
+                   <div className="flex items-baseline gap-2">
+                      <span className="text-5xl font-black text-primary tracking-tighter">{allResumes.length}</span>
+                      <span className="text-base font-bold text-secondary opacity-60 italic">Total Resumes</span>
+                   </div>
+                </div>
 
-          {/* Quick Stats & Welcome Card */}
-          <div className='lg:col-span-4 flex flex-col gap-6'>
-            <div className='group relative glass p-8 rounded-3xl shadow-soft flex flex-col justify-between h-full min-h-[240px] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-1'>
-              {/* Decorative Background Icon */}
-              <FileText className='absolute -right-6 -bottom-6 size-40 text-slate-100 group-hover:text-indigo-50/50 group-hover:scale-110 transition-all duration-700 -rotate-12' />
-
-              <div className='relative z-10'>
-                <p className='text-indigo-600 font-semibold mb-2 uppercase tracking-[0.2em] text-[10px]'>Your Workspace</p>
-                <div className='flex items-baseline gap-2'>
-                  <h3 className='text-5xl font-bold text-slate-900'>{allResumes.length}</h3>
-                  <span className='text-slate-500 font-medium text-lg'>Total Resumes</span>
+                <div className="mt-8">
+                   <div className="flex items-center gap-2.5 text-[9px] font-bold text-secondary opacity-60">
+                      <Clock size={10} className="text-accent" />
+                      Last sync: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                   </div>
                 </div>
               </div>
-
-              <div className='relative z-10 flex items-center gap-2.5 text-xs text-green-600 font-semibold bg-green-50/80 backdrop-blur-sm w-fit px-4 py-2 rounded-2xl border border-green-100 shadow-sm transition-all duration-300 group-hover:bg-green-100'>
-                <div className='size-2 bg-green-500 rounded-full animate-pulse' />
-                AI Processing Ready
-              </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className='lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6'>
-            <button
-              onClick={() => setShowCreateResume(true)}
-              className='group relative glass p-8 rounded-3xl flex flex-col items-start justify-between h-64 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden hover:-translate-y-1'
-            >
-              <div className='absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 group-hover:opacity-100 transition-opacity' />
-              <PlusIcon className='absolute -right-6 -bottom-6 size-48 text-indigo-50 group-hover:text-indigo-100/50 group-hover:scale-110 transition-all duration-700 -rotate-12' />
+          {/* Action Tiles */}
+          <div className='lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5'>
+             <button
+                onClick={() => setShowCreateResume(true)}
+                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-accent/20 shadow-2xl shadow-accent/5 hover:border-accent/40 transition-all bg-white/40'
+             >
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-brand-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="size-12 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform duration-500">
+                   <PlusIcon size={20} />
+                </div>
+                <div>
+                   <h3 className="text-lg font-black text-primary mb-1 tracking-tight">Create Resume</h3>
+                   <p className="text-secondary text-[11px] leading-relaxed max-w-[160px] opacity-70">Build a professional resume in minutes with our high-impact AI templates.</p>
+                   <div className="mt-3 flex items-center gap-2 text-accent font-black text-[8px] uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300">
+                      Start Now <ChevronRight size={8} />
+                   </div>
+                </div>
+             </button>
 
-              <PlusIcon className='relative z-10 size-14 p-3.5 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-200 group-hover:scale-110 group-hover:rotate-90 transition-all duration-500' />
-              <div className='relative z-10'>
-                <h3 className='text-2xl font-bold text-slate-800 mb-1'>Create New</h3>
-                <p className='text-slate-500 text-sm leading-relaxed'>Start fresh with professional templates</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => setShowUploadResume(true)}
-              className='group relative glass p-8 rounded-3xl flex flex-col items-start justify-between h-64 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden hover:-translate-y-1'
-            >
-              <div className='absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 group-hover:opacity-100 transition-opacity' />
-              <UploadCloudIcon className='absolute -right-6 -bottom-6 size-48 text-purple-50 group-hover:text-purple-100/50 group-hover:scale-110 transition-all duration-700 -rotate-12' />
-
-              <UploadCloudIcon className='relative z-10 size-14 p-3.5 bg-purple-600 text-white rounded-2xl shadow-lg shadow-purple-200 group-hover:scale-110 transition-all duration-500' />
-              <div className='relative z-10'>
-                <h3 className='text-2xl font-bold text-slate-800 mb-1'>Smart Upload</h3>
-                <p className='text-slate-500 text-sm leading-relaxed'>AI extraction from your existing PDF</p>
-              </div>
-            </button>
+             <button
+                onClick={() => setShowUploadResume(true)}
+                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-200 shadow-2xl shadow-slate-200/40 hover:border-blue-400/30 transition-all bg-white/40'
+             >
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="size-12 bg-white border border-slate-200 text-primary rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-500">
+                   <UploadCloud size={20} />
+                </div>
+                <div>
+                   <h3 className="text-lg font-black text-primary mb-1 tracking-tight">Upload resume</h3>
+                   <p className="text-secondary text-[11px] leading-relaxed max-w-[160px] opacity-70">Turn your existing PDF into a professional resume in seconds.</p>
+                   <div className="mt-3 flex items-center gap-2 text-accent font-black text-[8px] uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300">
+                      Start Upload <ChevronRight size={8} />
+                   </div>
+                </div>
+             </button>
           </div>
         </div>
 
+        {/* Resume Grid Section */}
         <div className='flex items-center justify-between mb-8'>
-          <h2 className='text-2xl font-bold text-slate-800'>Recent Resumes</h2>
+          <h2 className='text-2xl font-black text-primary tracking-tight'>Recent Deployments</h2>
+          <div className="h-px flex-1 bg-slate-100 mx-6 hidden sm:block"></div>
+          <span className="text-[9px] font-black text-secondary uppercase tracking-[0.3em]">Latest updates first</span>
         </div>
 
         {allResumes.length === 0 ? (
-          <div className='glass rounded-3xl p-20 flex flex-col items-center text-center opacity-80'>
-            <FileText className='size-16 text-slate-300 mb-4' />
-            <p className='text-slate-500'>Your resume collection is empty. Time to create something great!</p>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className='glass-light rounded-[3rem] p-24 flex flex-col items-center text-center border-dashed border-2 border-slate-200 bg-transparent'
+          >
+            <div className="size-20 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-300 mb-6">
+               <FileText size={40} strokeWidth={1} />
+            </div>
+            <h3 className="text-xl font-bold text-primary mb-2">No blueprints found</h3>
+            <p className='text-secondary max-w-sm'>Deploy your first resume to see it here in your neural cloud storage.</p>
+          </motion.div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {allResumes.map((resume, index) => {
               const baseColor = colors[index % colors.length];
               return (
-                <div
-                  key={index}
-                  className='group relative glass rounded-[32px] p-2 transition-all duration-500 hover:shadow-2xl hover:shadow-slate-200/50 hover:-translate-y-2'
+                <motion.div
+                  key={resume._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className='group glass-card-modern p-4 rounded-[2.5rem] relative'
                 >
-                  <button
+                  <div 
                     onClick={() => navigate(`/app/builder/${resume._id}`)}
-                    className='w-full aspect-[4/5] flex flex-col items-center justify-center rounded-[24px] gap-6 transition-all duration-500 cursor-pointer overflow-hidden border border-white/40'
-                    style={{ background: `linear-gradient(135deg, ${baseColor}05, ${baseColor}10)` }}
+                    className='w-full aspect-[4/5] rounded-[1.8rem] flex flex-col items-center justify-center gap-8 cursor-pointer relative overflow-hidden mb-6'
+                    style={{ background: `${baseColor}08` }}
                   >
-                    <div className='p-5 rounded-[20px] transition-all duration-500 group-hover:scale-105 bg-white shadow-sm border border-slate-50'>
-                      <FilePenLineIcon className="size-9" style={{ color: baseColor }} />
-                    </div>
-                    <div className='text-center px-4'>
-                      <h4 className='font-bold text-slate-800 group-hover:text-slate-950 transition-colors text-lg truncate w-full max-w-[160px] leading-tight'>{resume.title}</h4>
-                      <p className='text-[10px] text-slate-400 mt-2 uppercase tracking-[0.2em] font-bold'>
-                        {new Date(resume.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </p>
-                    </div>
+                     <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                     <div className='size-20 bg-white rounded-3xl flex items-center justify-center shadow-xl shadow-black/5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 relative z-10'>
+                        <FilePenLineIcon className="size-10" style={{ color: baseColor }} />
+                     </div>
+                     <div className="text-center px-6 relative z-10">
+                        <h4 className='font-black text-primary text-xl tracking-tight truncate w-full max-w-[180px] mb-2'>{resume.title}</h4>
+                        <div className="flex items-center justify-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest opacity-60">
+                           <Clock size={12} />
+                           {new Date(resume.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </div>
+                     </div>
+                  </div>
 
-                    <div onClick={e => e.stopPropagation()} className='absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0'>
-                      <button
-                        onClick={() => { setEditResumeId(resume._id); setTitle(resume.title) }}
-                        className="p-2 bg-white/95 backdrop-blur-sm hover:bg-white rounded-lg text-slate-400 hover:text-indigo-600 shadow-sm border border-slate-100 transition-all"
-                      >
-                        <PencilIcon className="size-3.5" />
-                      </button>
-                      <button
-                        onClick={() => deleteResume(resume._id)}
-                        className="p-2 bg-white/95 backdrop-blur-sm hover:bg-white rounded-lg text-slate-400 hover:text-red-500 shadow-sm border border-slate-100 transition-all"
-                      >
-                        <TrashIcon className="size-3.5" />
-                      </button>
-                    </div>
-                  </button>
-                </div>
+                  <div className="flex items-center justify-between px-2">
+                     <button 
+                       onClick={() => { setEditResumeId(resume._id); setTitle(resume.title) }}
+                       className="p-3 bg-slate-50 hover:bg-accent/10 hover:text-accent rounded-xl transition-all"
+                     >
+                        <PencilIcon size={16} />
+                     </button>
+                     <button 
+                       onClick={() => deleteResume(resume._id)}
+                       className="p-3 bg-slate-50 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all"
+                     >
+                        <TrashIcon size={16} />
+                     </button>
+                  </div>
+                </motion.div>
               )
             })}
           </div>
         )}
 
-        {showCreateResume && (
-          <form onSubmit={handleCreateSubmit} onClick={() => setShowCreateResume(false)} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
-            <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
-              <h2 className='text-xl font-bold mb-4'>Create a Resume</h2>
-              <input onChange={(e) => setTitle(e.target.value)} value={title} type="text" placeholder='Enter resume title' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
+        {/* Modals with AnimatePresence */}
+        <AnimatePresence>
+          {(showCreateResume || showUploadResume || editResumeId) && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className='fixed inset-0 bg-primary/20 backdrop-blur-md z-[200] flex items-center justify-center px-6'
+              onClick={() => { setShowCreateResume(false); setShowUploadResume(false); setEditResumeId('') }}
+            >
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                onClick={e => e.stopPropagation()} 
+                className='glass-light p-12 rounded-[3rem] w-full max-w-lg relative border-white shadow-2xl'
+              >
+                <button 
+                  className="absolute top-8 right-8 p-3 hover:bg-slate-100 rounded-full transition-all"
+                  onClick={() => { setShowCreateResume(false); setShowUploadResume(false); setEditResumeId('') }}
+                >
+                   <XIcon size={20} className="text-secondary" />
+                </button>
 
-              <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>Next: Pick Template</button>
-              <XIcon className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' onClick={() => { setShowCreateResume(false); setTitle('') }} />
-            </div>
-          </form>
-        )
-        }
+                {showCreateResume && (
+                  <form onSubmit={handleCreateSubmit}>
+                    <h2 className='text-3xl font-black text-primary tracking-tight mb-4'>Create resume</h2>
+                    <p className="text-secondary text-sm mb-10 leading-relaxed">Give your resume a name to get started on your professional journey.</p>
+                    <div className="space-y-8">
+                       <input 
+                        onChange={(e) => setTitle(e.target.value)} 
+                        value={title} 
+                        type="text" 
+                        placeholder='e.g. Senior Software Architect' 
+                        className='w-full' 
+                        required 
+                       />
+                       <button className='w-full py-5 bg-primary text-white rounded-[1.5rem] font-black text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-primary/20'>
+                          Proceed to Templates
+                       </button>
+                    </div>
+                  </form>
+                )}
+
+                {showUploadResume && (
+                  <form onSubmit={uploadResume}>
+                    <h2 className='text-3xl font-black text-primary tracking-tight mb-4'>Upload resume</h2>
+                    <p className="text-secondary text-sm mb-10 leading-relaxed">Import your existing PDF to upgrade your career story instantly.</p>
+                    <div className="space-y-8">
+                       <input 
+                        onChange={(e) => setTitle(e.target.value)} 
+                        value={title} 
+                        type="text" 
+                        placeholder='Resume Title' 
+                        className='w-full' 
+                        required 
+                       />
+                       <label htmlFor="resume-input" className="block">
+                         <div className='flex flex-col items-center justify-center gap-4 border-2 border-slate-100 border-dashed rounded-[2rem] p-10 hover:border-accent/30 hover:bg-accent/[0.02] cursor-pointer transition-all group'>
+                           {resume ? (
+                             <p className='text-accent font-bold'>{resume.name}</p>
+                           ) : (
+                             <>
+                               <UploadCloud className='size-16 text-slate-300 group-hover:text-accent transition-colors' />
+                               <p className="text-xs font-black text-secondary uppercase tracking-widest">Select PDF File</p>
+                             </>
+                           )}
+                         </div>
+                       </label>
+                       <input type="file" id='resume-input' accept='.pdf' hidden onChange={(e) => setResume(e.target.files[0])} />
+                       
+                       <button 
+                        disabled={isLoading} 
+                        className='w-full py-5 bg-primary text-white rounded-[1.5rem] font-black text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4'
+                       >
+                         {isLoading && <LoaderCircleIcon className='animate-spin size-5' />}
+                         {isLoading ? 'Analyzing...' : 'Begin Import'}
+                       </button>
+                    </div>
+                  </form>
+                )}
+
+                {editResumeId && (
+                  <form onSubmit={editTitle}>
+                    <h2 className='text-3xl font-black text-primary tracking-tight mb-4'>Rename Blueprint</h2>
+                    <p className="text-secondary text-sm mb-10 leading-relaxed">Update the identifier for this specific career deployment.</p>
+                    <div className="space-y-8">
+                       <input 
+                        onChange={(e) => setTitle(e.target.value)} 
+                        value={title} 
+                        type="text" 
+                        placeholder='Enter new title' 
+                        className='w-full' 
+                        required 
+                       />
+                       <button className='w-full py-5 bg-primary text-white rounded-[1.5rem] font-black text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-primary/20'>
+                          Update Identity
+                       </button>
+                    </div>
+                  </form>
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <TemplateGallery
           isOpen={showTemplateGallery}
@@ -248,54 +371,6 @@ const Dashboard = () => {
           selectedTemplate={selectedTemplate}
           selectedColor={selectedColor}
         />
-
-        {/* Footer actions for TemplateGallery are now Confirm Template button, so I need to trigger createResume */}
-
-        {showUploadResume && (
-          <form onSubmit={uploadResume} onClick={() => setShowUploadResume(false)} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
-            <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
-              <h2 className='text-xl font-bold mb-4'>Upload Resume</h2>
-              <input onChange={(e) => setTitle(e.target.value)} value={title} type="text" placeholder='Enter resume title' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
-              <div>
-                <label htmlFor="resume-input" className="block text-sm text-slate-700">
-                  Select resume file
-                  <div className='flex flex-col items-center justify-center gap-2 border group text-slate-400 border-slate-400 border-dashed rounded-md p-4 py-10 my-4 hover:border-green-500 hover:text-green-700 cursor-pointer transition-colors'>
-                    {resume ? (
-                      <p className='text-green-700'>{resume.name}</p>
-                    ) : (
-                      <>
-                        <UploadCloud className='size-14 stroke-1' />
-                        <p>Upload resume</p>
-                      </>
-                    )}
-                  </div>
-                </label>
-                <input type="file" id='resume-input' accept='.pdf' hidden onChange={(e) => setResume(e.target.files[0])} />
-              </div>
-              <button disabled={isLoading} className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex items-center justify-center gap-2'>
-                {isLoading && <LoaderCircleIcon className='animate-spin size-4 text-white' />}
-                {isLoading ? 'Uploading...' : 'Upload Resume'}
-
-              </button>
-              <XIcon className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' onClick={() => { setShowUploadResume(false); setTitle('') }} />
-            </div>
-          </form>
-        )
-        }
-
-        {editResumeId && (
-          <form onSubmit={editTitle} onClick={() => setEditResumeId('')} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
-            <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
-              <h2 className='text-xl font-bold mb-4'>Edit Resume Title</h2>
-              <input onChange={(e) => setTitle(e.target.value)} value={title} type="text" placeholder='Enter resume title' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
-
-              <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>Update</button>
-              <XIcon className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' onClick={() => { setEditResumeId(''); setTitle('') }} />
-            </div>
-          </form>
-        )
-        }
-
       </div>
     </div>
   )
