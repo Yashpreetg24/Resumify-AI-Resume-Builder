@@ -79,7 +79,6 @@ const ResumeBuilder = () => {
       typeof resumeData.personal_info.image === 'object' && formData.append("image", resumeData.personal_info.image)
       const { data } = await api.put('/api/resumes/update', formData, { headers: { Authorization: token } })
       setResumeData(data.resume)
-      toast.success(data.message)
     } catch (error) {
       console.error("Error saving resume:", error)
     }
@@ -248,7 +247,7 @@ const ResumeBuilder = () => {
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                <AtsScorePanel resumeData={resumeData} />
+                <AtsScorePanel accentColor={resumeData.accent_color} resumeData={resumeData} />
               </motion.div>
             </div>
 

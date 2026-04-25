@@ -126,7 +126,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, x: 0 }}
             className='lg:col-span-4'
           >
-            <div className='glass-light p-7 rounded-3xl border-2 border-slate-200 shadow-2xl shadow-slate-200/50 h-full relative overflow-hidden group hover:border-primary/30 transition-all bg-white/40'>
+            <div className='glass-light p-7 rounded-3xl border-2 border-slate-300/60 shadow-2xl shadow-slate-200/50 h-full relative overflow-hidden group hover:border-primary/30 transition-all bg-white/40'>
               <div className="absolute top-0 right-0 p-5 text-accent/10 -rotate-12 group-hover:rotate-0 transition-transform duration-700">
                  <Layout size={80} />
               </div>
@@ -153,7 +153,7 @@ const Dashboard = () => {
           <div className='lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5'>
              <button
                 onClick={() => setShowCreateResume(true)}
-                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-accent/20 shadow-2xl shadow-accent/5 hover:border-accent/40 transition-all bg-white/40'
+                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-300/60 shadow-2xl shadow-accent/5 hover:border-accent/40 transition-all bg-white/40'
              >
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-brand-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="size-12 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform duration-500">
@@ -170,7 +170,7 @@ const Dashboard = () => {
 
              <button
                 onClick={() => setShowUploadResume(true)}
-                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-200 shadow-2xl shadow-slate-200/40 hover:border-blue-400/30 transition-all bg-white/40'
+                className='group glass-card-modern flex flex-col items-start justify-between h-[240px] relative overflow-hidden text-left p-7 border-2 border-slate-300/60 shadow-2xl shadow-slate-200/40 hover:border-blue-400/30 transition-all bg-white/40'
              >
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="size-12 bg-slate-900 text-white rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/20 group-hover:scale-110 transition-transform duration-500">
@@ -208,7 +208,7 @@ const Dashboard = () => {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className='glass-light rounded-[3rem] p-24 flex flex-col items-center text-center border-dashed border-2 border-slate-200 bg-transparent'
+            className='glass-light rounded-[3rem] p-24 flex flex-col items-center text-center border-dashed border-2 border-slate-300/60 bg-transparent'
           >
             <div className="size-20 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-300 mb-6">
                <FileText size={40} strokeWidth={1} />
@@ -226,7 +226,7 @@ const Dashboard = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className='group relative bg-white border border-slate-100 rounded-[2rem] p-5 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-accent/20 transition-all duration-500'
+                  className='group relative bg-white border border-slate-300/60 rounded-[2rem] p-5 hover:shadow-2xl hover:shadow-slate-200/50 hover:border-accent/20 transition-all duration-500'
                 >
                   {/* Card Main Area */}
                   <div 
@@ -296,7 +296,7 @@ const Dashboard = () => {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 onClick={e => e.stopPropagation()} 
-                className='glass-light p-12 rounded-[3rem] w-full max-w-lg relative border-white shadow-2xl'
+                className='glass-light p-12 rounded-[3rem] w-full max-w-lg relative border border-slate-300/60 shadow-2xl'
               >
                 <button 
                   className="absolute top-8 right-8 p-3 hover:bg-slate-100 rounded-full transition-all"
