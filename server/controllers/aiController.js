@@ -161,7 +161,14 @@ export const checkAtsScore = async (req, res) => {
             skills: resumeData.skills || [],
         };
 
-        const systemPrompt = `You are an expert ATS (Applicant Tracking System) analyzer and professional resume coach. Analyze the provided resume data and return a comprehensive ATS score report in strict JSON format. Be realistic and consistent — for the same resume always return the same scores. Be critical: most resumes score 40-80; only exceptional ones score above 85.`;
+        const systemPrompt = `You are an expert ATS (Applicant Tracking System) analyzer and professional resume coach. 
+Analyze the provided resume data and return a comprehensive ATS score report in strict JSON format. 
+
+SCORING RULES:
+1. Be realistic but balanced. A missing LinkedIn or Website should NOT drop a score below 70 if other content is strong.
+2. DO NOT penalize the same mistake in multiple categories (e.g., if LinkedIn is missing, only report it under ATS ESSENTIALS, not under SECTIONS).
+3. Focus heavily on "Quantifying Impact" and "Power Verbs" for the CONTENT and KEYWORDS scores.
+4. Be consistent: for the same data, always return the same scores.`;
 
         const userPrompt = `Analyze this resume and return ONLY a valid JSON object — no markdown, no extra text.
 
@@ -170,9 +177,9 @@ ${JSON.stringify(slimResume, null, 2)}
 
 JSON structure to return:
 {
-  "overall_score": <integer 0-100>,
-  "total_issues": <integer>,
-  "summary_message": "<one sentence feedback>",
+  "overall_score": <integer 0-100, weighted average of category scores>,
+  "total_issues": <integer, sum of unique issues found>,
+  "summary_message": "<one sentence encouraging but professional feedback>",
   "categories": [
     {
       "id": "content",
@@ -190,8 +197,8 @@ JSON structure to return:
       "name": "SECTIONS",
       "score": <integer 0-100>,
       "checks": [
-        { "name": "Essential Sections", "passed": <bool>, "issues": <int>, "detail": "<string>" },
-        { "name": "Contact Information", "passed": <bool>, "issues": <int>, "detail": "<string>" }
+        { "name": "Essential Sections", "passed": <bool>, "issues": <int>, "detail": "Check for Summary, Experience, Education, Skills" },
+        { "name": "Contact Details", "passed": <bool>, "issues": <int>, "detail": "Check for Email, Phone, and Location only" }
       ]
     },
     {
@@ -199,9 +206,9 @@ JSON structure to return:
       "name": "ATS ESSENTIALS",
       "score": <integer 0-100>,
       "checks": [
-        { "name": "Email Address", "passed": <bool>, "issues": <int>, "detail": "<string>" },
-        { "name": "Professional Title", "passed": <bool>, "issues": <int>, "detail": "<string>" },
-        { "name": "LinkedIn / Website", "passed": <bool>, "issues": <int>, "detail": "<string>" }
+        { "name": "LinkedIn Profile", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Personal Website", "passed": <bool>, "issues": <int>, "detail": "<string>" },
+        { "name": "Professional Title", "passed": <bool>, "issues": <int>, "detail": "<string>" }
       ]
     },
     {
