@@ -112,37 +112,33 @@ const ResumeBuilder = () => {
   return (
     <div className='min-h-screen pt-12 pb-8 relative mesh-gradient-light bg-grid-slate-100 overflow-x-hidden'>
       <div className='max-w-[1440px] mx-auto px-10 relative z-10'>
-        {/* Navigation Header */}
-        <div className="flex items-center justify-between mb-8">
-           <div className="flex items-center gap-6">
-              <button onClick={() => setShowExitModal(true)} className="group flex items-center gap-3 px-5 py-3 glass-light rounded-2xl text-secondary hover:text-primary transition-all border-white shadow-sm hover:shadow-md">
-                <ArrowLeftIcon size={16} className="group-hover:-translate-x-1 transition-transform" />
+        {/* Integrated Navigation Header */}
+        <div className="flex items-center justify-between bg-white/90 backdrop-blur-xl rounded-full p-2 border border-slate-200/60 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] mb-12 sticky top-6 z-[100]">
+           <div className="flex items-center">
+              <button 
+                onClick={() => setShowExitModal(true)} 
+                className="group flex items-center gap-2.5 px-4 py-2 text-slate-400 hover:text-slate-900 transition-all active:scale-95 ml-2"
+              >
+                <ArrowLeftIcon size={14} className="group-hover:-translate-x-1 transition-transform" />
                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">Back</span>
               </button>
-              <div className="h-8 w-[1px] bg-slate-200 hidden md:block"></div>
+              
+              <div className="h-6 w-[1px] bg-slate-200/80 mx-6 hidden md:block"></div>
+              
               <div className="hidden md:flex flex-col">
-                 <span className="text-[9px] font-black text-accent uppercase tracking-[0.4em] mb-0.5 opacity-60">Editing Resume</span>
-                 <h1 className="text-xl font-black text-primary tracking-tight leading-none uppercase">{resumeData.title || "Untitled Resume"}</h1>
+                 <span className="text-[8px] font-black text-accent uppercase tracking-[0.4em] mb-0.5 opacity-70">Editing Resume</span>
+                 <h1 className="text-[14px] font-black text-slate-900 tracking-tight leading-none uppercase">{resumeData.title || "Untitled Resume"}</h1>
               </div>
            </div>
 
-           <div className="flex items-center gap-4 glass-light p-2 rounded-[1.5rem] border-white shadow-lg">
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
-                 <div className={`size-2 rounded-full ${resumeData.public ? 'bg-green-500 animate-pulse' : 'bg-slate-300'}`}></div>
-                 <span className="text-[9px] font-black text-secondary uppercase tracking-widest">{resumeData.public ? 'Public' : 'Private'}</span>
-              </div>
-              
-              <div className="h-4 w-[1px] bg-slate-200 mx-1"></div>
-
-              <div className="flex items-center gap-2">
-                 <button 
-                   onClick={() => toast.promise(saveResume(), { loading: 'Saving...', success: 'Resume Saved', error: 'Save Failed' })} 
-                   className="h-11 px-6 bg-slate-900 text-white rounded-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 shadow-xl shadow-slate-900/20"
-                 >
-                    <Save size={18} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Save Changes</span>
-                 </button>
-              </div>
+           <div className="flex items-center pr-1">
+              <button 
+                onClick={() => toast.promise(saveResume(), { loading: 'Saving...', success: 'Resume Saved', error: 'Save Failed' })} 
+                className="group h-12 px-8 bg-slate-900 text-white rounded-full hover:scale-[1.03] active:scale-[0.97] transition-all flex items-center gap-3 shadow-xl shadow-slate-900/20"
+              >
+                 <Save size={16} className="group-hover:rotate-12 transition-transform" />
+                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">Save Changes</span>
+              </button>
            </div>
         </div>
 
@@ -156,51 +152,52 @@ const ResumeBuilder = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className='glass-light rounded-3xl p-8 border-white shadow-2xl relative'
               >
-                {/* Integrated Stepper Navigation */}
-                <div className="flex items-center justify-between p-1 mb-8 bg-slate-100/40 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-sm relative z-50">
-                   <div className="flex items-center gap-1">
-                      <button 
-                        disabled={activeSectionIndex === 0}
-                        onClick={() => setActiveSectionIndex(prev => prev - 1)}
-                        className="size-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md disabled:opacity-20 disabled:hover:bg-transparent transition-all"
-                      >
-                         <ChevronLeft size={18} />
-                      </button>
-                      
-                      <div className="flex items-center gap-3 pl-1 pr-4 py-1 bg-white rounded-xl shadow-sm border border-slate-200/50">
-                         <div className="size-8 bg-slate-900 rounded-lg flex items-center justify-center text-white shadow-lg shadow-slate-900/10">
-                            <activeSection.icon size={14} />
-                         </div>
-                         <div className="flex flex-col">
-                            <span className="text-[6px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-0.5">Step {activeSectionIndex + 1}/{sections.length}</span>
-                            <span className="text-[11px] font-black text-slate-900 uppercase tracking-tight leading-none">{activeSection.name}</span>
-                         </div>
+                <div className="flex items-center gap-2 mb-6">
+                   {/* Main Stepper Bar */}
+                   <div className="flex-1 flex items-center justify-between p-0.5 bg-slate-100/30 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-sm relative z-50 px-1">
+                      <div className="flex items-center gap-1.5">
+                         <button 
+                           disabled={activeSectionIndex === 0}
+                           onClick={() => setActiveSectionIndex(prev => prev - 1)}
+                           className="size-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white transition-all disabled:opacity-20"
+                         >
+                            <ChevronLeft size={16} />
+                         </button>
+                         
+                          <div className="flex items-center gap-3 pl-1 pr-5 py-0.5 bg-white rounded-lg shadow-sm border border-slate-100">
+                             <div className="size-7 bg-slate-900 rounded-md flex items-center justify-center text-white shadow-lg shadow-slate-900/10 shrink-0">
+                                <activeSection.icon size={12} />
+                             </div>
+                             <div className="flex flex-col w-[90px]">
+                                <span className="text-[5.5px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-0.5">Step {activeSectionIndex + 1}/{sections.length}</span>
+                                <span className="text-[10px] font-black text-slate-900 uppercase tracking-tight leading-none truncate">{activeSection.name}</span>
+                             </div>
+                          </div>
+
+                         <button 
+                           disabled={activeSectionIndex === sections.length - 1}
+                           onClick={() => setActiveSectionIndex(prev => prev + 1)}
+                           className="size-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white transition-all disabled:opacity-20"
+                         >
+                            <ChevronRight size={16} />
+                         </button>
                       </div>
 
-                      <button 
-                        disabled={activeSectionIndex === sections.length - 1}
-                        onClick={() => setActiveSectionIndex(prev => prev + 1)}
-                        className="size-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md disabled:opacity-20 disabled:hover:bg-transparent transition-all"
-                      >
-                         <ChevronRight size={18} />
-                      </button>
+                      <div className="hidden sm:flex flex-col items-end mr-4">
+                         <div className="text-[5.5px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-0.5">Progress</div>
+                         <div className="text-[10px] font-black text-slate-900 leading-none">{Math.round(((activeSectionIndex + 1) / sections.length) * 100)}%</div>
+                      </div>
                    </div>
 
-                   <div className="flex items-center gap-1">
-                      <div className="hidden sm:flex flex-col items-end mr-2">
-                        <div className="text-[6px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-0.5">Progress</div>
-                        <div className="text-[11px] font-black text-slate-900 leading-none">{Math.round(((activeSectionIndex + 1) / sections.length) * 100)}%</div>
-                      </div>
-                      
-                      <div className="h-6 w-[1px] bg-slate-200 mx-0.5"></div>
-                      
+                   {/* External Tools */}
+                   <div className="flex items-center gap-1 shrink-0">
                       <button 
                         onClick={() => setShowTemplateGallery(true)}
-                        className="size-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md transition-all group relative"
+                        className="size-9 rounded-xl bg-white border border-slate-200/50 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-all active:scale-95"
+                        title="Change Template"
                       >
-                        <Layers size={16} />
+                         <Layers size={16} />
                       </button>
-                      
                       <ColorPicker selectedColor={resumeData.accent_color} onChange={(color) => setResumeData(prev => ({ ...prev, accent_color: color }))} />
                    </div>
                 </div>

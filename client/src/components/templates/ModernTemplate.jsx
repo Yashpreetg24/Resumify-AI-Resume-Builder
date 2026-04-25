@@ -174,16 +174,8 @@ const ModernTemplate = ({ data }) => {
 					)}
 				</div>
 			</div>
-
-			{/* Footer Accent */}
-			<footer className="mt-auto py-8 border-t border-slate-50 bg-slate-50/20 px-12">
-				<div className="flex justify-between items-center text-[9px] font-black text-secondary/30 uppercase tracking-[0.4em]">
-					<span>Ref_ID: {data._id?.slice(-8).toUpperCase() || "SYSTEM_ALPHA"}</span>
-					<span>Generated via Resumify Neural Engine</span>
-				</div>
-			</footer>
 		</div>
 	);
 }
 
-export default ModernTemplate;
+export default ModernTemplate;

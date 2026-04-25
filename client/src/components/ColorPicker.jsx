@@ -20,13 +20,13 @@ const ColorPicker = ({selectedColor, onChange }) => {
     <div className='relative'>
       <button 
         onClick={()=> setIsOpen(!isOpen)} 
-        className='size-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-md transition-all group relative'
+        className='size-9 rounded-xl bg-white border border-slate-200/50 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-all active:scale-95 group relative'
       >
         <Palette size={16} />
       </button>
 
       {isOpen && (
-        <div className='absolute top-full right-0 p-3 mt-2 z-[200] bg-white rounded-2xl border border-slate-100 shadow-2xl w-[220px]'>
+        <div className='absolute top-full right-0 p-4 mt-3 z-[200] bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.15)] w-[240px]'>
             <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 px-1">Accent Color</div>
             <div className='grid grid-cols-2 gap-2'>
                 {colors.map((color)=>(

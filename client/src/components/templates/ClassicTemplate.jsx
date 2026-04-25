@@ -156,14 +156,6 @@ const ClassicTemplate = ({ data }) => {
                     </section>
                 )}
             </div>
-
-            {/* Footer */}
-            <footer className="mt-16 pt-8 border-t border-slate-50">
-                <div className="flex justify-between items-center text-[8px] font-black text-secondary/20 uppercase tracking-[0.4em]">
-                    <span>Official Document // System_Ref: {data._id?.slice(-6).toUpperCase() || "BETA"}</span>
-                    <span>Produced by Resumify Intelligence</span>
-                </div>
-            </footer>
         </div>
     );
 }

@@ -116,27 +116,16 @@ const TemplateGallery = ({ isOpen, onClose, onSelect, onConfirm, selectedTemplat
     }
   ]
 
-  const accentColors = [
-    { name: "Resumify Blue", value: "#3B82F6" },
-    { name: "Indigo Night", value: "#6366F1" },
-    { name: "Royal Purple", value: "#8B5CF6" },
-    { name: "Emerald", value: "#10B981" },
-    { name: "Crimson", value: "#EF4444" },
-    { name: "Deep Orange", value: "#F97316" },
-    { name: "Ocean Teal", value: "#14B8A6" },
-    { name: "Slate", value: "#475569" },
-    { name: "Onyx", value: "#1F2937" }
-  ]
-
   return (
     <AnimatePresence>
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
         className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6"
       >
-        <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+        <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-md transition-all duration-75"></div>
         
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, y: 20 }}

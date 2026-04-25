@@ -121,12 +121,6 @@ const MinimalTemplate = ({ data }) => {
                     </section>
                 )}
             </div>
-
-            {/* Footer */}
-            <footer className="mt-32 pt-12 border-t border-slate-50 flex justify-between items-center text-[9px] font-black text-secondary/20 uppercase tracking-[0.5em]">
-                <span>Document Matrix v1.0</span>
-                <span>Synthesized by Resumify Engine</span>
-            </footer>
         </div>
     );
 }
