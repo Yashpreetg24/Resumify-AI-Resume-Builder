@@ -110,10 +110,10 @@ const ResumeBuilder = () => {
   }
 
   return (
-    <div className='min-h-screen pt-12 pb-8 relative mesh-gradient-light bg-grid-slate-100 overflow-x-hidden'>
+    <div className='min-h-screen pt-6 pb-8 relative mesh-gradient-light bg-grid-slate-100 overflow-x-hidden'>
       <div className='max-w-[1440px] mx-auto px-10 relative z-10'>
         {/* Integrated Navigation Header */}
-        <div className="flex items-center justify-between bg-white/90 backdrop-blur-xl rounded-full p-2 border border-slate-200/60 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] mb-12 sticky top-6 z-[100]">
+        <div className="sticky top-4 z-50 flex items-center justify-between bg-white rounded-full p-2 border border-slate-200/60 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] mb-12">
            <div className="flex items-center">
               <button 
                 onClick={() => setShowExitModal(true)} 
@@ -131,14 +131,37 @@ const ResumeBuilder = () => {
               </div>
            </div>
 
-           <div className="flex items-center pr-1">
-              <button 
-                onClick={() => toast.promise(saveResume(), { loading: 'Saving...', success: 'Resume Saved', error: 'Save Failed' })} 
-                className="group h-12 px-8 bg-slate-900 text-white rounded-full hover:scale-[1.03] active:scale-[0.97] transition-all flex items-center gap-3 shadow-xl shadow-slate-900/20"
-              >
-                 <Save size={16} className="group-hover:rotate-12 transition-transform" />
-                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">Save Changes</span>
-              </button>
+           <div className="flex items-center gap-3 pr-1">
+              {/* Secondary Actions */}
+              <div className="flex items-center gap-2 mr-2">
+                 <button 
+                   onClick={handleShare} 
+                   disabled={!resumeData.public} 
+                   className="size-10 flex items-center justify-center hover:bg-slate-50 rounded-full text-slate-500 hover:text-accent transition-all disabled:opacity-20 border border-transparent hover:border-slate-100"
+                   title="Share Link"
+                 >
+                   <Share2Icon size={16} />
+                 </button>
+
+                 <button 
+                   onClick={changeResumeVisibility} 
+                   className="flex items-center gap-2 px-4 h-10 hover:bg-slate-50 rounded-full text-[9px] font-black tracking-[0.2em] text-slate-500 hover:text-slate-900 transition-all uppercase border border-transparent hover:border-slate-100"
+                   title={resumeData.public ? 'Make Private' : 'Make Public'}
+                 >
+                   {resumeData.public ? <EyeIcon size={14} className="text-accent" /> : <EyeOffIcon size={14} />}
+                   <span className="hidden lg:inline">{resumeData.public ? 'Public' : 'Private'}</span>
+                 </button>
+                 
+                 <button 
+                   onClick={() => window.print()} 
+                   className="group h-11 px-6 bg-slate-900 text-white rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2.5 shadow-lg shadow-slate-900/20"
+                   title="Export PDF"
+                 >
+                   <DownloadIcon size={15} className="group-hover:-translate-y-0.5 transition-transform" />
+                   <span className="text-[9px] font-black uppercase tracking-[0.2em]">Export PDF</span>
+                 </button>
+              </div>
+
            </div>
         </div>
 
@@ -230,21 +253,8 @@ const ResumeBuilder = () => {
             </div>
 
             {/* Preview Column */}
-            <div className='lg:col-span-8 flex flex-col gap-6'>
-              <div className="flex items-center justify-end gap-3 mb-4">
-                 <button onClick={changeResumeVisibility} className="flex items-center gap-2 px-5 h-12 glass-light rounded-2xl text-[9px] font-black tracking-[0.3em] text-secondary hover:text-primary transition-all uppercase border-white/60">
-                   {resumeData.public ? <EyeIcon size={14} className="text-accent" /> : <EyeOffIcon size={14} />}
-                   {resumeData.public ? 'Public' : 'Private'}
-                 </button>
-                 <button onClick={handleShare} disabled={!resumeData.public} className="size-12 flex items-center justify-center glass-light rounded-2xl text-secondary hover:text-accent transition-all disabled:opacity-30 border-white/60">
-                   <Share2Icon size={18} />
-                 </button>
-                 <button onClick={() => window.print()} className="flex items-center gap-4 px-8 h-12 bg-white border border-slate-200 text-primary rounded-2xl text-[10px] font-black tracking-[0.3em] hover:bg-slate-50 transition-all uppercase shadow-lg shadow-black/5">
-                   <DownloadIcon size={16} /> Export PDF
-                 </button>
-              </div>
-
-              <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-white shadow-black/5">
+            <div className='lg:col-span-8 flex flex-col gap-6 pt-4'>
+               <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-white shadow-black/5">
                  <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
               </div>
             </div>

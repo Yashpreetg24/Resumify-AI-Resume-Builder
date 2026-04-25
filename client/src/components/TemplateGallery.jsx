@@ -123,9 +123,9 @@ const TemplateGallery = ({ isOpen, onClose, onSelect, onConfirm, selectedTemplat
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.1 }}
-        className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6"
+        className="fixed inset-0 z-[500] flex items-center justify-center p-4 sm:p-6"
       >
-        <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-md transition-all duration-75"></div>
+        <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl transition-all duration-75"></div>
         
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
