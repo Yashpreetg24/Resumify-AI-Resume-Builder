@@ -33,6 +33,8 @@ const ResumeSchema = new mongoose.Schema({
             name: { type: String },
             type: { type: String },
             description: { type: String },
+            codebase_url: { type: String, default: '' },
+            hosted_url: { type: String, default: '' },
         }
     ],
     education: [

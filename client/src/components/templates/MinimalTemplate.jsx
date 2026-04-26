@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Github, ExternalLink, ArrowUpRight } from "lucide-react";
 
 const MinimalTemplate = ({ data }) => {
     const formatDate = (dateStr) => {
@@ -11,7 +11,7 @@ const MinimalTemplate = ({ data }) => {
     };
 
     return (
-        <div className="bg-white text-slate-800 min-h-[11in] font-sans p-20 selection:bg-indigo-100 leading-relaxed">
+        <div className="bg-white text-slate-800 min-h-[297mm] w-full font-sans p-20 selection:bg-indigo-100 leading-relaxed shadow-none">
             {/* Header */}
             <header className="mb-20">
                 <h1 className="text-6xl font-black font-heading text-primary tracking-tighter leading-none uppercase mb-6">
@@ -117,6 +117,45 @@ const MinimalTemplate = ({ data }) => {
                                     </span>
                                 ))}
                             </div>
+                        </div>
+                    </section>
+                )}
+
+                {/* Projects */}
+                {data.project && data.project.length > 0 && (
+                    <section className="grid grid-cols-12 gap-8">
+                        <div className="col-span-3">
+                            <h2 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] pt-1">
+                                // PROJECTS
+                            </h2>
+                        </div>
+                        <div className="col-span-9 space-y-10">
+                            {data.project.map((proj, index) => (
+                                <div key={index} className="space-y-3 group">
+                                    <div className="flex justify-between items-center border-b border-slate-50 pb-3">
+                                        <h3 className="text-xl font-black text-primary uppercase tracking-tight">{proj.name}</h3>
+                                        <div className="flex gap-6 text-[10px] font-black uppercase tracking-widest">
+                                            {proj.codebase_url && (
+                                                <a href={proj.codebase_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-secondary/30 hover:text-primary transition-all">
+                                                    <span>Codebase</span>
+                                                    <ArrowUpRight size={12} />
+                                                </a>
+                                            )}
+                                            {proj.hosted_url && (
+                                                <a href={proj.hosted_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-secondary/30 hover:text-primary transition-all">
+                                                    <span>Hosted</span>
+                                                    <ArrowUpRight size={12} />
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                    {proj.description && (
+                                        <p className="text-[14px] font-medium leading-relaxed text-secondary/70">
+                                            {proj.description}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
                         </div>
                     </section>
                 )}

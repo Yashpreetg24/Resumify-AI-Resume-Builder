@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Github, ExternalLink, ArrowUpRight } from "lucide-react";
 
 const ClassicTemplate = ({ data }) => {
     const formatDate = (dateStr) => {
@@ -11,7 +11,7 @@ const ClassicTemplate = ({ data }) => {
     };
 
     return (
-        <div className="bg-white text-slate-800 min-h-[11in] font-sans p-16 selection:bg-indigo-100 leading-relaxed">
+        <div className="bg-white text-slate-800 min-h-[297mm] w-full font-sans p-12 selection:bg-indigo-100 leading-relaxed shadow-none">
             {/* Header */}
             <header className="text-center mb-12">
                 <h1 className="text-4xl font-black font-heading text-primary tracking-tighter leading-none uppercase mb-4">
@@ -153,8 +153,24 @@ const ClassicTemplate = ({ data }) => {
                         </h2>
                         <div className="grid grid-cols-2 gap-8">
                             {data.project.map((proj, index) => (
-                                <div key={index} className="space-y-2 p-6 bg-slate-50/50 border border-slate-50 rounded-2xl">
-                                    <h3 className="text-xs font-black text-primary uppercase tracking-widest">{proj.name}</h3>
+                                <div key={index} className="space-y-3 p-6 bg-slate-50/50 border border-slate-50 rounded-2xl">
+                                    <div className="flex justify-between items-start">
+                                        <h3 className="text-xs font-black text-primary uppercase tracking-widest">{proj.name}</h3>
+                                        <div className="flex gap-3 text-[9px] font-black uppercase tracking-widest">
+                                            {proj.codebase_url && (
+                                                <a href={proj.codebase_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-0.5 text-secondary/40 hover:text-primary transition-colors">
+                                                    <span>Codebase</span>
+                                                    <ArrowUpRight size={10} />
+                                                </a>
+                                            )}
+                                            {proj.hosted_url && (
+                                                <a href={proj.hosted_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-0.5 text-secondary/40 hover:text-primary transition-colors">
+                                                    <span>Hosted</span>
+                                                    <ArrowUpRight size={10} />
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
                                     <p className="text-[12px] font-medium text-secondary/70 leading-relaxed">{proj.description}</p>
                                 </div>
                             ))}

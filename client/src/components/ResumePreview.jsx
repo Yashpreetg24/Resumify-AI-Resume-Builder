@@ -21,39 +21,60 @@ const ResumePreview = ({data, template, accentColor, classes = ""}) => {
     }
 
   return (
-    <div className='w-full bg-gray-100'>
-      <div id="resume-preview" className={"border border-gray-200 print:shadow-none print:border-none " + classes}>
+    <div className='w-full bg-gray-100 flex justify-center py-10 print:p-0 print:bg-white'>
+      <div 
+        id="resume-preview" 
+        className={"bg-white shadow-2xl print:shadow-none " + classes}
+        style={{ width: '210mm', minHeight: '297mm' }}
+      >
         {renderTemplate()}
       </div>
 
-      <style jsx>
+      <style jsx global>
         {`
-        @page {
-          size: letter;
-          margin: 0;
-        }
         @media print {
-          html, body {
-            width: 8.5in;
-            height: 11in;
-            overflow: hidden; 
-          }
+          /* Hide everything by default */
           body * {
-            visibility: hidden;
+            visibility: hidden !important;
           }
-          #resume-preview, #resume-preview * {
-            visibility: visible;
+          
+          /* Show only the resume-preview and its content */
+          #resume-preview, 
+          #resume-preview * {
+            visibility: visible !important;
           }
+
+          /* Ensure the resume-preview is at the top-left and takes full width */
           #resume-preview {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: auto;
-            margin: 0;
-            padding: 0;
-            box-shadow: none !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 210mm !important;
+            min-height: 297mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
             border: none !important;
+            box-shadow: none !important;
+          }
+
+          /* Reset body and html for print */
+          html, body {
+            width: 210mm !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+          }
+
+          @page {
+            size: A4;
+            margin: 0mm;
+          }
+
+          /* Fix for background colors */
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
         }
         `}

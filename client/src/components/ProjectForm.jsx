@@ -1,4 +1,4 @@
-import { Plus, Trash2, FolderIcon, Layout } from 'lucide-react';
+import { Plus, Trash2, FolderIcon, Layout, Github, Globe } from 'lucide-react';
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -8,6 +8,8 @@ const addProject = () =>{
         name: "",
         type: "",
         description: "",
+        codebase_url: "",
+        hosted_url: "",
     };
     onChange([...data, newProject])
 }
@@ -73,6 +75,24 @@ const updateProject = (index, field, value)=>{
                               Project Name
                            </label>
                            <input value={project.name || ""} onChange={(e)=>updateProject(index, "name", e.target.value)} type="text" placeholder="e.g. AI Portfolio System" className="w-full bg-white border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary shadow-sm focus:border-accent/20 outline-none transition-all"/>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                               <label className="flex items-center gap-2 text-[9px] font-black text-secondary uppercase tracking-widest pl-1">
+                                  <Github size={11} className="text-accent" />
+                                  Codebase URL
+                               </label>
+                               <input value={project.codebase_url || ""} onChange={(e)=>updateProject(index, "codebase_url", e.target.value)} type="text" placeholder="GitHub Link" className="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all"/>
+                            </div>
+
+                            <div className="space-y-1.5">
+                               <label className="flex items-center gap-2 text-[9px] font-black text-secondary uppercase tracking-widest pl-1">
+                                  <Globe size={11} className="text-accent" />
+                                  Hosted URL
+                               </label>
+                               <input value={project.hosted_url || ""} onChange={(e)=>updateProject(index, "hosted_url", e.target.value)} type="text" placeholder="Live Demo Link" className="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-4 py-3 text-[13px] font-medium text-primary focus:bg-white outline-none transition-all"/>
+                            </div>
                         </div>
 
                         <div className="space-y-1.5">
